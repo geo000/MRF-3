@@ -1,0 +1,4 @@
+C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_H1\pointMask\spring_raw_mask.png
+C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_H1\pointMask\summer_raw_mask.png
+C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_H1\pointMask\autumn_raw_mask.png
+C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_H1\pointMask\winter_raw_mask.png

@@ -1,0 +1,4 @@
+C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_N\source\spring_src.png
+C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_N\source\summer_src.png
+C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_N\source\autumn_src.png
+C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_N\source\winter_src.png
