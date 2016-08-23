@@ -23,10 +23,14 @@ the aforementioned paper in any resulting publication.
 
 #pragma once
 
-
+// standard lib (STL or boost)
 #include<map>
 #include<vector>
 #include<string>
+#include "boost/algorithm/string.hpp"
+#include"boost\lexical_cast.hpp"
+
+//standard lib(STL or boost)
 
 #include<io.h>
 #include<iostream>
@@ -109,16 +113,15 @@ private:\
 	extern RegisterFunMap fun_map;
 
 	#define doRegisteration(fun)	\
-	namespace{						\
-	class _Register_##fun{			\
-	public:	_Register_##fun()		\
-		{							\
-	fun_map[#fun] = &(fun);			\
-		}							\
-	};							\
-	_Register_##fun m_registeration_##fun;\
-	}							\
-
+		namespace{						\
+		class _Register_##fun{			\
+		public:	_Register_##fun()		\
+						{							\
+		fun_map[#fun] = &(fun);			\
+						}							\
+				};							\
+		_Register_##fun m_registeration_##fun;\
+				}							
 
 	static RegisterFunction  getCommandFunction(const std::string& name)
 	{
@@ -144,7 +147,6 @@ private:\
 namespace CUDA
 {
 	extern void get_gpus(std::vector<int>* gpus);
-
 
 
 

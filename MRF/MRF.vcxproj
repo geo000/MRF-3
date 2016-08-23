@@ -34,7 +34,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -48,7 +48,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -101,16 +101,19 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions);_SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\OpenCV\include;C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include;$(OPENCV)/include;$(BOOST_1_56_0);$(CUDA_PATH_V7_0)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\OpenCV\x64\vc12\lib;.\lib;.\lib\glog\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_core249d.lib;opencv_highgui249d.lib;opencv_imgproc249d.lib;gflagsd.lib;gflags.lib;libglog.lib;libglog_static.lib;%(AdditionalDependencies);shlwapi.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OPENCV)/x64/vc12/lib;./lib;./lib/glog/debug;$(CUDA_PATH_V7_0)\lib\$(PlatformName);$(BOOST_1_56_0)/lib64-msvc-12.0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_core249d.lib;opencv_highgui249d.lib;opencv_imgproc249d.lib;gflagsd.lib;libglog.lib;libglog_static.lib;%(AdditionalDependencies);shlwapi.lib;cudart.lib;cuda.lib;nppi.lib;cufft.lib;cublas.lib;curand.lib</AdditionalDependencies>
     </Link>
+    <CudaCompile>
+      <TargetMachinePlatform>64</TargetMachinePlatform>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -138,17 +141,17 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions);_SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\OpenCV\include;C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include;$(OPENCV)/include;$(BOOST_1_56_0);$(CUDA_PATH_V7_0)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\OpenCV\x64\vc12\lib;.\lib;.\lib\glog\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_core249.lib;opencv_highgui249.lib;opencv_imgproc249.lib;gflags.lib;gflagsd.lib;libglog.lib;libglog_static.lib;%(AdditionalDependencies);shlwapi.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OPENCV)/x64/vc12/lib;./lib;./lib/glog/release;$(CUDA_PATH_V7_0)/lib/$(PlatformName);$(BOOST_1_56_0)/lib64-msvc-12.0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_core249.lib;opencv_highgui249.lib;opencv_imgproc249.lib;gflags.lib;libglog.lib;libglog_static.lib;%(AdditionalDependencies);shlwapi.lib;cudart.lib;cuda.lib;nppi.lib;cufft.lib;cublas.lib;curand.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -162,7 +165,6 @@
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="example.cpp" />
     <ClCompile Include="GCoptimization.cpp" />
     <ClCompile Include="graph.cpp" />
     <ClCompile Include="GraphCut4MRF.cpp" />

@@ -1,7 +1,8 @@
 
 #include"Utility.h"
 
-RegisterFunMap fun_map;
+
+
 
 DEFINE_string(infolder, "./", "Optional: root folder , default setting is current workspace.");
 DEFINE_string(gpu, "",
@@ -20,34 +21,32 @@ DEFINE_string(edgeSolver, "canny", "edge detection using different kind of metho
 DEFINE_bool(showInitialImage, false, "show initial image of synthesis");
 DEFINE_bool(dumpInitialImage, false, "dump initial image of synthesis");
 
+
 namespace CUDA
 {
 	void get_gpus(std::vector<int>* gpus)
 	{
-		//if (FLAGS_gpu == "all") {
+		int count = 0;
+		CUDA_CHECK(cudaGetDeviceCount(&count));
+		for (int i = 0; i < count; ++i) {
+			gpus->push_back(i);
+		}
 
-		//	int count = 0;
-		//	CUDA_CHECK(cudaGetDeviceCount(&count));
+		//std::cout << count << std::endl;
 
-		//	for (int i = 0; i < count; ++i) {
-		//		gpus->push_back(i);
-		//	}
-		//}
-		//else if (FLAGS_gpu.size()) {
-		//	std::vector<std::string> strings;
-		//	//boost::split(strings, FLAGS_gpu, boost::is_any_of(","));
-		//	for (int i = 0; i < strings.size(); ++i) {
-		//		//gpus->push_back(boost::lexical_cast<int>(strings[i]));
-		//	}
+		// if (FLAGS_gpu.size()) {
+		// std::vector<std::string> strings;
+		// boost::split(strings, FLAGS_gpu, boost::is_any_of(","));
+		// for (int i = 0; i < strings.size(); ++i) {
+		//	 gpus->push_back(boost::lexical_cast<int>(strings[i]));
+		// }
 		//}
 		//else {
-		//	CHECK_EQ(gpus->size(), 0);
-		//}
+		// CHECK_EQ(gpus->size(), 0);
+		// }
 
 
 	}
-
-
 
 
 }

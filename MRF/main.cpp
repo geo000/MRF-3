@@ -4,7 +4,7 @@
 
 
 
-
+RegisterFunMap fun_map;
 
 
 // 1.  edge detection ,sobel,canny,laplacian operator
@@ -14,7 +14,7 @@ int edge_detection(void)
 
 	CHECK_GT(FLAGS_imageName.size(), 0) << " image to be detected should not be empty..";
 
-	//std::cout << FLAGS_imageName << std::endl;
+
 	cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
 
 	cv::Mat gray, result;
@@ -59,6 +59,28 @@ int device_query(void)
 
 	std::vector<int> gpus;
 
+	CUDA::get_gpus(&gpus);
+
+	cudaDeviceProp prop;
+
+	for (int i = 0; i < gpus.size(); ++i) {
+		CUDA_CHECK(cudaGetDeviceProperties(&prop,i));
+		printf("------General Information for GPU %d ---\n",i);
+		printf("Name : %s\n",prop.name);
+		printf("Compute capability: %d.%d\n",prop.major,prop.minor);
+		printf("Clock rate: %d\n", prop.clockRate);
+		printf("Device Copy Overlap: ");
+		if (prop.deviceOverlap) printf("Enabled\n");
+		else printf("Disabled\n");
+		printf("Kernel Execution timeout: ");
+		if (prop.kernelExecTimeoutEnabled) printf("Enabled\n");
+		else printf("Disabled\n");
+
+		printf("------Memory Information for GPU %d ---\n", i);
+		printf("Total global memory: %ld\n",prop.totalGlobalMem);
+
+	}
+
 	return 1;
 }
 doRegisteration(device_query);
@@ -93,9 +115,9 @@ int main(int argc,char** argv)
 	gflags::SetUsageMessage("command line actions\n"
 		"usage: MRF <command> <args>\n\n"
 		"commands:\n"
-		"	edge_detection  detect edges of source image using(canny,sobel,laplacian)\n "
-		"	graphcut  solve a graphcut problem using alpha-expansion or alpha_beta swap"
-		"	device_query  show GPU diagnostic information\n");
+		"	edge_detection\n(detect edges of source image using canny,sobel,laplacian )\n "
+		"	graphcut\n(solve a graphcut problem using alpha-expansion or alpha_beta swap)\n"
+		"	device_query\n(show GPU diagnostic information)\n");
 
 
 	gflags::ParseCommandLineFlags(&argc, &argv, true);
