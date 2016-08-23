@@ -1,17 +1,16 @@
-﻿生成启动时间为 8/23/2016 10:32:15 PM。
+﻿生成启动时间为 8/24/2016 12:26:12 AM。
      1>项目“C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\MRF.vcxproj”在节点 2 上(Rebuild 个目标)。
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IC:\OpenCV\include /IC:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /Gd /TP /errorReport:prompt example.cpp GCoptimization.cpp graph.cpp GraphCut4MRF.cpp LinkedBlockList.cpp main.cpp maxflow.cpp Utility.cpp
-         example.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I./include /IC:/OpenCV/include /IC:\local\boost_1_56_0 /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0/include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _MBCS /D _SCL_SECURE_NO_WARNINGS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /Gd /TP /errorReport:prompt GCoptimization.cpp graph.cpp GraphCut4MRF.cpp LinkedBlockList.cpp main.cpp maxflow.cpp Utility.cpp
          GCoptimization.cpp
      1>GCoptimization.cpp(308): warning C4390: “;”: 找到空的受控语句；这是否是有意的?
          graph.cpp
          GraphCut4MRF.cpp
      1>C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include\glog\logging.h(1158): warning C4251: “google::LogMessage::LogStream::streambuf_”: class“google::base_logging::LogStreamBuf”需要有 dll 接口由 class“google::LogMessage::LogStream”的客户端使用
                  C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include\glog\logging.h(1088) : 参见“google::base_logging::LogStreamBuf”的声明
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(88): warning C4091: “extern ”: 没有声明变量时忽略“GraphCut4MRF”的左侧
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(89): warning C4091: “extern ”: 没有声明变量时忽略“MyDataCostFunctor”的左侧
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(90): warning C4091: “extern ”: 没有声明变量时忽略“MySmoothCostFunctor”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(92): warning C4091: “extern ”: 没有声明变量时忽略“GraphCut4MRF”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(93): warning C4091: “extern ”: 没有声明变量时忽略“MyDataCostFunctor”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(94): warning C4091: “extern ”: 没有声明变量时忽略“MySmoothCostFunctor”的左侧
      1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(22): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
      1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(151): warning C4305: “初始化”: 从“double”到“float”截断
      1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(192): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
@@ -28,9 +27,9 @@
          main.cpp
      1>C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include\glog\logging.h(1158): warning C4251: “google::LogMessage::LogStream::streambuf_”: class“google::base_logging::LogStreamBuf”需要有 dll 接口由 class“google::LogMessage::LogStream”的客户端使用
                  C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include\glog\logging.h(1088) : 参见“google::base_logging::LogStreamBuf”的声明
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(88): warning C4091: “extern ”: 没有声明变量时忽略“GraphCut4MRF”的左侧
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(89): warning C4091: “extern ”: 没有声明变量时忽略“MyDataCostFunctor”的左侧
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(90): warning C4091: “extern ”: 没有声明变量时忽略“MySmoothCostFunctor”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(92): warning C4091: “extern ”: 没有声明变量时忽略“GraphCut4MRF”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(93): warning C4091: “extern ”: 没有声明变量时忽略“MyDataCostFunctor”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(94): warning C4091: “extern ”: 没有声明变量时忽略“MySmoothCostFunctor”的左侧
      1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(22): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
      1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(151): warning C4305: “初始化”: 从“double”到“float”截断
      1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(192): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
@@ -39,12 +38,29 @@
          Utility.cpp
      1>C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include\glog\logging.h(1158): warning C4251: “google::LogMessage::LogStream::streambuf_”: class“google::base_logging::LogStreamBuf”需要有 dll 接口由 class“google::LogMessage::LogStream”的客户端使用
                  C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include\glog\logging.h(1088) : 参见“google::base_logging::LogStreamBuf”的声明
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(88): warning C4091: “extern ”: 没有声明变量时忽略“GraphCut4MRF”的左侧
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(89): warning C4091: “extern ”: 没有声明变量时忽略“MyDataCostFunctor”的左侧
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(90): warning C4091: “extern ”: 没有声明变量时忽略“MySmoothCostFunctor”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(92): warning C4091: “extern ”: 没有声明变量时忽略“GraphCut4MRF”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(93): warning C4091: “extern ”: 没有声明变量时忽略“MyDataCostFunctor”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(94): warning C4091: “extern ”: 没有声明变量时忽略“MySmoothCostFunctor”的左侧
+     1>Utility.cpp(7): warning C4273: “fLS::FLAGS_infolder”: dll 链接不一致
+                 c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(101) : 参见“FLAGS_infolder”的前一个定义
+     1>Utility.cpp(11): warning C4273: “fLS::FLAGS_gpu”: dll 链接不一致
+                 c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(102) : 参见“FLAGS_gpu”的前一个定义
+     1>Utility.cpp(13): warning C4273: “fLS::FLAGS_imageName”: dll 链接不一致
+                 c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(103) : 参见“FLAGS_imageName”的前一个定义
+     1>Utility.cpp(14): warning C4273: “fLB::FLAGS_dumpImage”: dll 链接不一致
+                 c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(104) : 参见“FLAGS_dumpImage”的前一个定义
+     1>Utility.cpp(15): warning C4273: “fLS::FLAGS_dumpName”: dll 链接不一致
+                 c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(105) : 参见“FLAGS_dumpName”的前一个定义
+     1>Utility.cpp(17): warning C4273: “fLB::FLAGS_showEdge”: dll 链接不一致
+                 c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(106) : 参见“FLAGS_showEdge”的前一个定义
+     1>Utility.cpp(18): warning C4273: “fLS::FLAGS_edgeSolver”: dll 链接不一致
+                 c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(107) : 参见“FLAGS_edgeSolver”的前一个定义
+     1>Utility.cpp(21): warning C4273: “fLB::FLAGS_showInitialImage”: dll 链接不一致
+                 c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(108) : 参见“FLAGS_showInitialImage”的前一个定义
+     1>Utility.cpp(22): warning C4273: “fLB::FLAGS_dumpInitialImage”: dll 链接不一致
+                 c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(109) : 参见“FLAGS_dumpInitialImage”的前一个定义
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Release\MRF.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\OpenCV\x64\vc12\lib /LIBPATH:.\lib /LIBPATH:.\lib\glog\release /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\lib\x64" opencv_core249.lib opencv_highgui249.lib opencv_imgproc249.lib gflags.lib gflagsd.lib libglog.lib libglog_static.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib shlwapi.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Release\MRF.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Release\MRF.lib" /MACHINE:X64 x64\Release\example.obj
-         x64\Release\GCoptimization.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Release\MRF.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:/OpenCV/x64/vc12/lib /LIBPATH:./lib /LIBPATH:./lib/glog/release /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0/lib/x64" /LIBPATH:"C:\local\boost_1_56_0/lib64-msvc-12.0" /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\lib\x64" opencv_core249.lib opencv_highgui249.lib opencv_imgproc249.lib gflags.lib libglog.lib libglog_static.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib shlwapi.lib cudart.lib cuda.lib nppi.lib cufft.lib cublas.lib curand.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Release\MRF.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Release\MRF.lib" /MACHINE:X64 x64\Release\GCoptimization.obj
          x64\Release\graph.obj
          x64\Release\GraphCut4MRF.obj
          x64\Release\LinkedBlockList.obj
@@ -52,11 +68,11 @@
          x64\Release\maxflow.obj
          x64\Release\Utility.obj
             正在创建库 C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Release\MRF.lib 和对象 C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Release\MRF.exp
-     1>Utility.obj : error LNK2001: 无法解析的外部符号 cudaGetDeviceCount
-     1>Utility.obj : error LNK2001: 无法解析的外部符号 cudaGetErrorString
-     1>C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Release\MRF.exe : fatal error LNK1120: 2 个无法解析的外部命令
-     1>已完成生成项目“C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\MRF.vcxproj”(Rebuild 个目标)的操作 - 失败。
+         正在生成代码
+         已完成代码的生成
+         MRF.vcxproj -> C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Release\MRF.exe
+     1>已完成生成项目“C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\MRF.vcxproj”(Rebuild 个目标)的操作。
 
-生成失败。
+生成成功。
 
-已用时间 00:00:02.08
+已用时间 00:00:04.20
