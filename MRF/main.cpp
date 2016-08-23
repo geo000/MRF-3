@@ -1,8 +1,4 @@
 
-#include<fstream>
-#include<map>
-#include<gflags\gflags.h>
-#include<glog\logging.h>
 
 #include"GraphCut4MRF.h"
 
@@ -24,47 +20,22 @@ DEFINE_string(edgeSolver, "canny", "edge detection using different kind of metho
 DEFINE_bool(showInitialImage, false, "show initial image of synthesis"); 
 DEFINE_bool(dumpInitialImage,false,"dump initial image of synthesis");
 
-typedef int(*RegisterFunction)(void);
-typedef std::map<std::string, RegisterFunction> RegisterFunMap;
-RegisterFunMap fun_map;
 
-#define doRegisteration(fun)	\
-namespace{						\
-class _Register_##fun{			\
-public:	_Register_##fun()		\
-	{							\
-fun_map[#fun] = &(fun);			\
-    }							\
-};							\
-_Register_##fun m_registeration_##fun;\
-}							\
 
-static RegisterFunction  getCommandFunction(const std::string& name)
-{
-	if (fun_map.count(name)){
-		return fun_map[name];
-	}
-	else
-	{
-		LOG(ERROR) << "Available Actions:";
-		for (RegisterFunMap::iterator it = fun_map.begin(); it != fun_map.end(); ++it)
-		{
-			LOG(ERROR) << "\t" << it->first;
-		}
-		LOG(FATAL) << "unknown actions :" << name;
-		return NULL;
 
-	}
 
-}
+
+
 
 // 
 // 1.  edge detection ,sobel,canny,laplacian operator
-int edgeDetection(void)
+int edge_detection(void)
 {
+
+
 	CHECK_GT(FLAGS_imageName.size(), 0) << " image to be detected should not be empty..";
 
-
+	//std::cout << FLAGS_imageName << std::endl;
 	cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
 
 	cv::Mat gray, result;
@@ -75,21 +46,20 @@ int edgeDetection(void)
 		return -1;
 	}
 
-	if (FLAGS_edgeSolver == "canny")
-	{
-		cv::Canny(m, result, 50, 150,3);
-	}
-	else if (FLAGS_edgeSolver == "sobel")
-	{
+	if (FLAGS_edgeSolver == "canny")	
+		cv::Canny(m, result, 50, 150,3);	
+	else if (FLAGS_edgeSolver == "sobel")	
 		cv::Sobel(m, result, m.depth(), 1, 1);
-	}
 	else if (FLAGS_edgeSolver == "laplacian")
-	{
 		cv::Laplacian(m,result,m.depth());
-	}
 	else
-	{
 		LOG(ERROR) << " No other edge detection method.";
+	
+
+	if (FLAGS_showEdge)
+	{
+		cv::imshow("edge detection.", result);
+		cv::waitKey(0);
 	}
 
 	
@@ -98,15 +68,21 @@ int edgeDetection(void)
 	{
 		CHECK_GT(FLAGS_dumpName.size(), 0) << "dump name should not be empty.";
 
-
-
-
+		cv::imwrite(FLAGS_dumpName, result);
 	}
-	return  0;
+	return  1;
 }
+doRegisteration(edge_detection);
 
-doRegisteration(edgeDetection);
+int device_query(void)
+{
+	LOG(INFO) << "Queryings GPUS " << FLAGS_gpu;
 
+	std::vector<int> gpus;
+
+	return 1;
+}
+doRegisteration(device_query);
 
 //
 
@@ -133,7 +109,26 @@ void GetMatArray(const char* filename,MatArray& output)
 
 int main(int argc,char** argv)
 {
+	FLAGS_alsologtostderr = 1;
+
+	gflags::SetUsageMessage("command line actions\n"
+		"usage: MRF <command> <args>\n\n"
+		"commands:\n"
+		"	edge_detection  detect edges of source image using(canny,sobel,laplacian)\n "
+		"	graphcut  solve a graphcut problem using alpha-expansion or alpha_beta swap"
+		"	device_query  show GPU diagnostic information\n");
+
+
 	gflags::ParseCommandLineFlags(&argc, &argv, true);
+	google::InitGoogleLogging(argv[0]);
+	google::InstallFailureSignalHandler();
+
+	if (argc == 2)
+		return getCommandFunction(std::string(argv[1]))();
+	else
+	{
+		gflags::ShowUsageWithFlagsRestrict(argv[0], "../data");
+	}
 
 	//std::cout << FLAGS_infolder << std::endl;
 

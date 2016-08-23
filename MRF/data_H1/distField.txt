@@ -1,4 +1,0 @@
-C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_H1\distField\spring_distance_field.png
-C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_H1\distField\summer_distance_field.png
-C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_H1\distField\autumn_distance_field.png
-C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_H1\distField\winter_distance_field.png

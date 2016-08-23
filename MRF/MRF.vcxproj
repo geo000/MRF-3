@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="block.h" />
+    <ClInclude Include="clc_common.h" />
     <ClInclude Include="energy.h" />
     <ClInclude Include="GCoptimization.h" />
     <ClInclude Include="graph.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="LinkedBlockList.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maxflow.cpp" />
+    <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GraphCut4MRF.cu">

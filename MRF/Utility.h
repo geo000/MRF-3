@@ -1,282 +1,180 @@
 
-#ifndef _CLC_UTILITY_H_
-#define _CLC_UTILITY_H_
-#include <io.h>
+/* Utility.h */
+/*
+This software library implements some common useful algorithm
 
+This algorithm was developed by Lechao Cheng(liygcheng@zju.edu.cn)
+at Zhejiang university. 
+
+It's free for you to use this software for research purposes except 
+for commercial usage.
+
+----------------------------------------------------------------------
+
+REUSING TREES:
+
+If you use this option, you should cite
+the aforementioned paper in any resulting publication.
+*/
+
+
+
+
+
+#pragma once
+
+
+#include<map>
+#include<vector>
+
+
+#include<io.h>
+#include<iostream>
+#include<fstream>
 #include<opencv2\opencv.hpp>
 #include<sstream>
+#include<ctime>
+#include<assert.h>
+
+
+//cuda header
+#include <cublas_v2.h>
+#include <cuda.h>
+#include <cuda_runtime.h>
+#include <curand.h>
+#include <driver_types.h>  // cuda driver types
+//cuda header 
+
+//
+#include<gflags\gflags.h>
+#include<glog\logging.h>
+
+/***********************************  cuda macros **************************************/
+#define CUDA_CHECK(condition) \
+	/*code block avoids redefinition of cudaError_t error */	\
+	cudaError_t error = condition;								\
+	CHECK_EQ(error,cudaSuccess)<<""<<cudaGetErrorString(error); \
+
+#define CUBLAS_CHECK(condition)\
+		cublasStatus_t status = condition;\
+		CHECK_EQ(status,CUBLAS_STATUS_SUCCESS) <<" " \
+		<< TK::cublasGetErrorString(status);\
+
+#define CURAND_CHECK(condition)\
+	curandStatus_t status =  condition;\
+	CHECK_EQ(status,CURAND_STATUS_SUCCESS)<<" "\
+	<<TK::curandGetErrorString(status);\
+
+/***********************************  cuda macros **************************************/
+
+
+/***********************************  some useful macros  ******************************/
+// Disable the copy and assignment operator for a class.
+#define DISABLE_COPY_AND_ASSIGN(classname) \
+private:\
+  classname(const classname&);\
+  classname& operator=(const classname&)
+
+#define MAX_VALUE 255
+#define INF_VALUE 10000000
+
+/***********************************  some useful macros  ******************************/
+
+
+
+/***********************************  graphcut definition ******************************/
+	typedef std::vector<cv::Mat>  MatArray;
+	typedef std::vector<std::string> StrArray;
+	extern class GraphCut4MRF;
+	extern class MyDataCostFunctor;
+	extern class MySmoothCostFunctor;
+/***********************************  graphcut definition ******************************/
+
+
+/***********************************  gflags  setting     ******************************/
+	typedef int(*RegisterFunction)(void);
+	typedef std::map<std::string, RegisterFunction> RegisterFunMap;
+	extern RegisterFunMap fun_map;
+
+	#define doRegisteration(fun)	\
+	namespace{						\
+	class _Register_##fun{			\
+	public:	_Register_##fun()		\
+		{							\
+	fun_map[#fun] = &(fun);			\
+		}							\
+	};							\
+	_Register_##fun m_registeration_##fun;\
+	}							\
+
+
+	static RegisterFunction  getCommandFunction(const std::string& name)
+	{
+		if (fun_map.count(name)){
+			return fun_map[name];
+		}
+		else
+		{
+			LOG(ERROR) << "Available Actions:";
+			for (RegisterFunMap::iterator it = fun_map.begin(); it != fun_map.end(); ++it)
+			{
+				LOG(ERROR) << "\t" << it->first;
+			}
+			LOG(FATAL) << "unknown actions :" << name;
+			return NULL;
+
+		}
+
+	}
+
+/***********************************  gflags  setting     ******************************/
+
+
+
 
 namespace TK
 {
-	static  bool tk_is_file_existed(const char* filename)
-	{
-		if (_access(filename, 0) != -1)
-		{
-			std::cout << "File " << filename << " already exists.\n" << std::endl;
-			return true;
-		}
-
-		return false;
-	}
+	extern  bool tk_is_file_existed(const char* filename);
 
 	template<class T>
-	static bool tk_normalize(T** data, int Y,int X)
-	{
-		T max_value = -1;
-		T min_value = 100000000;
-		for (int y = 0; y < Y; ++y)
-		{
-			for (int x = 0; x < X; ++x)
-			{
-				max_value = std::max(max_value, data[y][x]);
-				min_value = std::min(min_value, data[y][x]);
-			}
-
-		}
-		
-		assert(max_value > 0);
-		for (int y = 0; y < Y; ++y)
-		{
-			for (int x = 0; x < X; ++x)
-			{
-				data[y][x] = (data[y][x] / max_value) * 255;
-			}
-
-		}
-
-		printf("Normalize Done,max = %f , min = %f\n", max_value,min_value);
-		return true;
-	}
+	extern bool tk_normalize(T** data, int Y, int X);
 
 
 	template<class T>
-	static bool tk_check(T** data, int Y, int X)
-	{
-
-		for (int y = 0; y < Y; ++y)
-		{
-			for (int x = 0; x < X; ++x)
-			{
-				if (data[y][x] < 0 )
-
-					printf("data[%d][%d] = %f \n", y,x,data[y][x]);
-			}
-
-		}
-
-		printf("check Done\n");
-		return true;
-	}
+	extern bool tk_check(T** data, int Y, int X);
 
 	template<class T>
-	static bool tk_memset(T** data, int Y, int X)
-	{
-
-		for (int y = 0; y < Y; ++y)
-		{
-			for (int x = 0; x < X; ++x)
-			{
-				data[y][x] = 0;
-			}
-
-		}
-
-		printf("memset  Done\n");
-		return true;
-	}
+	extern bool tk_memset(T** data, int Y, int X);
 
 
-	static bool tk_save_img(const cv::Mat img,const char* filename = "./subtotal/result.png")
-	{
-		if (!img.data)
-		{
-			printf("The image to be saved is empty.\n");
-			return false;
-		}
-
-		cv::imwrite(filename, img);
-
-		return true;
-	}
+	extern bool tk_save_img(const cv::Mat img, const char* filename = "./subtotal/result.png");
 
 	template<class T>
-	static bool tk_dump_vec(const std::vector<std::vector<T>> data, int Y, int X,const char* filename)
-	{
-		std::fstream out(filename,std::ios::out);
-
-		if (!out)
-		{
-			std::cout << "Open File Error" << std::endl;
-			return false;
-		}
-
-		for (int y = 0; y < Y; ++y)
-		{
-			for (int x = 0; x < X; ++x)
-			{
-				out << data[y][x] << " ";
-			}
-			out << std::endl;
-		}
-		out.close();
-
-		printf("dump file Done --->%s\n",filename);
-		return true;
-	}
+	extern bool tk_dump_vec(const std::vector<std::vector<T>> data, int Y, int X, const char* filename);
 
 	template<class T>
-	static bool tk_elicit_vec(std::vector<std::vector<T>> & data, int Y, int X, const char* filename)
-	{
-		std::fstream in(filename, std::ios::in);
-
-		if (!in)
-		{
-			std::cout << "Open File Error" << std::endl;
-			return false;
-		}
-
-		for (int y = 0; y < Y; ++y)
-		{
-			for (int x = 0; x < X; ++x)
-			{
-				in >> data[y][x] ;
-			}
-			
-		}
-		in.close();
-
-		printf("get file Done --->%s\n", filename);
-		return true;
-	}
+	extern bool tk_elicit_vec(std::vector<std::vector<T>> & data, int Y, int X, const char* filename);
 
 
-	static bool tk_dump_points(const std::vector<std::vector<cv::Point>> data, const char* filename)
-	{
-		std::fstream out(filename, std::ios::out);
 
-		if (!out)
-		{
-			std::cout << "Open File Error" << std::endl;
-			return false;
-		}
-
-		for (int i = 0; i < data.size(); ++i)
-		{
-			out << data[i].size() << std::endl;
-
-			for (int j = 0; j < data[i].size(); ++j)
-			{
-				out << data[i][j].x << " " << data[i][j].y << std::endl;
-			}
-
-		}
-
-		out.close();
-
-		printf("dump points Done --->%s\n", filename);
-
-		return true;
-	}
+	extern bool tk_dump_points(const std::vector<std::vector<cv::Point>> data, const char* filename);
 
 
-	static bool tk_elicit_points(std::vector<std::vector<cv::Point>> & data,const char* filename)
-	{
-		std::fstream in(filename, std::ios::in);
 
-		if (!in)
-		{
-			std::cout << "Open File Error" << std::endl;
-			return false;
-		}
-
-		int num = 0;
-	    
-		while (in >> num)
-		{
-			assert(num);
-			std::vector<cv::Point> slicPoints;
-			slicPoints.resize(num);
-			for (int i = 0; i < num; ++i)
-			{
-				in >> slicPoints[i].x >> slicPoints[i].y;
-			}
-			data.push_back(slicPoints);
-
-		}
-
-		in.close();
-
-		printf("get points Done --->%s\n", filename);
-
-		return true;
-	}
+	extern bool tk_elicit_points(std::vector<std::vector<cv::Point>> & data, const char* filename);
 
 	template<class T>
-	static bool tk_dump_malloc(T** data, int Y, int X, const char* filename)
-	{
-		std::fstream out(filename, std::ios::out);
-
-		if (!out)
-		{
-			std::cout << "Open File Error" << std::endl;
-			return false;
-		}
-
-		for (int y = 0; y < Y; ++y)
-		{
-			for (int x = 0; x < X; ++x)
-			{
-				out << data[y][x] << " ";
-			}
-			out << std::endl;
-		}
-		out.close();
-
-		printf("dump file Done --->%s\n", filename);
-		return true;
-	}
+	extern bool tk_dump_malloc(T** data, int Y, int X, const char* filename);
 
 	template<class T>
-	static bool tk_elicit_malloc(T** & data, int Y, int X, const char* filename)
-	{
-		std::fstream in(filename, std::ios::in);
-
-		if (!in)
-		{
-			std::cout << "Open File Error" << std::endl;
-			return false;
-		}
-
-		for (int y = 0; y < Y; ++y)
-		{
-			for (int x = 0; x < X; ++x)
-			{
-				in >> data[y][x];
-			}
-
-		}
-		in.close();
-
-		printf("get file Done --->%s\n", filename);
-		return true;
-	}
+	extern bool tk_elicit_malloc(T** & data, int Y, int X, const char* filename);
 
 
 	template<class T>
-	static std::string tk_toString(const T& t)
-	{
-		std::ostringstream oss;//创建一个流
+	extern std::string tk_toString(const T& t);
 
-
-		oss.clear();
-
-		oss << t;//把值传递如流中
-
-		return oss.str();//获取转换后的字符转并将其写入result
-
-	}
-
+	extern const char* cublasGetErrorString(cublasStatus_t error);
+	extern const char* curandGetErrorString(curandStatus_t error);
 
 
 }
-#endif

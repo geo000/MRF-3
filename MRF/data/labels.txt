@@ -1,4 +1,0 @@
-C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data\labels\spring_labels.png
-C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data\labels\summer_labels.png
-C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data\labels\autumn_labels.png
-C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data\labels\winter_labels.png

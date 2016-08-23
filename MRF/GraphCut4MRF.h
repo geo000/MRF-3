@@ -1,37 +1,10 @@
-#include<iostream>
-
-#include<opencv2\opencv.hpp>
-
-#include<ctime>
-
-#include<assert.h>
-
-#include<fstream>
-
+#pragma once
 
 #include"Utility.h"
-
 #include"GCoptimization.h"
 
-// Disable the copy and assignment operator for a class.
-#define DISABLE_COPY_AND_ASSIGN(classname) \
-private:\
-  classname(const classname&);\
-  classname& operator=(const classname&)
 
 
-
-#define MAX_VALUE 255
-
-#define INF_VALUE 10000000
-
-
-
-typedef std::vector<cv::Mat>  MatArray;
-typedef std::vector<std::string> StrArray;
-
-
-class GraphCut4MRF;
 
 class MyDataCostFunctor :public GCoptimization::DataCostFunctor
 {
@@ -436,7 +409,7 @@ private:
 
 	bool m_label_order;
 	std::vector<std::vector<int> > m_labels;
-	//std::vector<std::vector<GCoptimization::EnergyTermType> > m_labels_minimum_energy;
+	
 	GCoptimization::EnergyTermType** m_datacost;
 
 	int m_numpixels;

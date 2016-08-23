@@ -39,6 +39,9 @@
     <ClInclude Include="LinkedBlockList.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="clc_common.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,6 +63,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="maxflow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

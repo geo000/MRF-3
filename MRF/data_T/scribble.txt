@@ -1,4 +1,0 @@
-C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_T\scribble\spring_scribble.png
-C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_T\scribble\summer_scribble.png
-C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_T\scribble\autumn_scribble.png
-C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\data_T\scribble\winter_scribble.png

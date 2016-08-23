@@ -1,21 +1,35 @@
-﻿生成启动时间为 8/22/2016 9:55:15 PM。
+﻿生成启动时间为 8/23/2016 9:11:26 PM。
      1>项目“C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\MRF.vcxproj”在节点 2 上(Rebuild 个目标)。
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IC:\OpenCV\include /IC:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /Zi /nologo /W3 /WX- /sdl /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt example.cpp GCoptimization.cpp graph.cpp GraphCut4MRF.cpp LinkedBlockList.cpp main.cpp maxflow.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IC:\OpenCV\include /IC:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /Zi /nologo /W3 /WX- /sdl /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt example.cpp GCoptimization.cpp graph.cpp GraphCut4MRF.cpp LinkedBlockList.cpp main.cpp maxflow.cpp Utility.cpp
+         Utility.cpp
+     1>C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include\glog\logging.h(1158): warning C4251: “google::LogMessage::LogStream::streambuf_”: class“google::base_logging::LogStreamBuf”需要有 dll 接口由 class“google::LogMessage::LogStream”的客户端使用
+                 C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include\glog\logging.h(1088) : 参见“google::base_logging::LogStreamBuf”的声明
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(88): warning C4091: “extern ”: 没有声明变量时忽略“GraphCut4MRF”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(89): warning C4091: “extern ”: 没有声明变量时忽略“MyDataCostFunctor”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(90): warning C4091: “extern ”: 没有声明变量时忽略“MySmoothCostFunctor”的左侧
          maxflow.cpp
          main.cpp
      1>C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include\glog\logging.h(1158): warning C4251: “google::LogMessage::LogStream::streambuf_”: class“google::base_logging::LogStreamBuf”需要有 dll 接口由 class“google::LogMessage::LogStream”的客户端使用
                  C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include\glog\logging.h(1088) : 参见“google::base_logging::LogStreamBuf”的声明
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(49): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(178): warning C4305: “初始化”: 从“double”到“float”截断
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(219): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(374): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(88): warning C4091: “extern ”: 没有声明变量时忽略“GraphCut4MRF”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(89): warning C4091: “extern ”: 没有声明变量时忽略“MyDataCostFunctor”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(90): warning C4091: “extern ”: 没有声明变量时忽略“MySmoothCostFunctor”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(22): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(151): warning C4305: “初始化”: 从“double”到“float”截断
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(192): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(347): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
          LinkedBlockList.cpp
          GraphCut4MRF.cpp
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(49): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(178): warning C4305: “初始化”: 从“double”到“float”截断
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(219): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
-     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(374): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+     1>C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include\glog\logging.h(1158): warning C4251: “google::LogMessage::LogStream::streambuf_”: class“google::base_logging::LogStreamBuf”需要有 dll 接口由 class“google::LogMessage::LogStream”的客户端使用
+                 C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\include\glog\logging.h(1088) : 参见“google::base_logging::LogStreamBuf”的声明
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(88): warning C4091: “extern ”: 没有声明变量时忽略“GraphCut4MRF”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(89): warning C4091: “extern ”: 没有声明变量时忽略“MyDataCostFunctor”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\Utility.h(90): warning C4091: “extern ”: 没有声明变量时忽略“MySmoothCostFunctor”的左侧
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(22): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(151): warning C4305: “初始化”: 从“double”到“float”截断
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(192): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+     1>c:\liygcheng\research\timelapse\cplusplus\mrf\mrf\GraphCut4MRF.h(347): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
      1>GraphCut4MRF.cpp(148): warning C4244: “初始化”: 从“GCoptimization::EnergyType”转换到“float”，可能丢失数据
      1>GraphCut4MRF.cpp(149): warning C4244: “初始化”: 从“GCoptimization::EnergyType”转换到“float”，可能丢失数据
      1>GraphCut4MRF.cpp(151): warning C4244: “初始化”: 从“GCoptimization::EnergyType”转换到“float”，可能丢失数据
@@ -37,6 +51,7 @@
          x64\Debug\LinkedBlockList.obj
          x64\Debug\main.obj
          x64\Debug\maxflow.obj
+         x64\Debug\Utility.obj
             正在创建库 C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Debug\MRF.lib 和对象 C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Debug\MRF.exp
      1>gflagsd.lib(gflags.obj) : warning LNK4099: 未找到 PDB“vc120.pdb”(使用“gflagsd.lib(gflags.obj)”或在“C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Debug\vc120.pdb”中寻找)；正在链接对象，如同没有调试信息一样
      1>gflagsd.lib(gflags_reporting.obj) : warning LNK4099: 未找到 PDB“vc120.pdb”(使用“gflagsd.lib(gflags_reporting.obj)”或在“C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\x64\Debug\vc120.pdb”中寻找)；正在链接对象，如同没有调试信息一样
@@ -47,4 +62,4 @@
 
 生成成功。
 
-已用时间 00:00:01.91
+已用时间 00:00:02.56
