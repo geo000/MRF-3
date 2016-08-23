@@ -3,31 +3,10 @@
 #include"GraphCut4MRF.h"
 
 
-DEFINE_string(infolder,"./","Optional: root folder , default setting is current workspace.");
-DEFINE_string(gpu, "",
-	"Optional; run in GPU mode on given device IDs separated by ','."
-	"Use '-gpu all' to run on all available GPUs. The effective training "
-	"batch size is multiplied by the number of devices.");
-
-DEFINE_string(imageName,"","image path for all the testing usage.");
-DEFINE_bool(dumpImage,false,"dump current image to the folder of imageName,rename output as dumpName");
-DEFINE_string(dumpName, "", "dump image name after processing of imageName");
-
-DEFINE_bool(showEdge, false, "display edges of source image.");
-DEFINE_string(edgeSolver, "canny", "edge detection using different kind of methods");
-
-
-DEFINE_bool(showInitialImage, false, "show initial image of synthesis"); 
-DEFINE_bool(dumpInitialImage,false,"dump initial image of synthesis");
 
 
 
 
-
-
-
-
-// 
 // 1.  edge detection ,sobel,canny,laplacian operator
 int edge_detection(void)
 {
@@ -84,7 +63,7 @@ int device_query(void)
 }
 doRegisteration(device_query);
 
-//
+
 
 void GetMatArray(const char* filename,MatArray& output)
 {

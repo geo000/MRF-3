@@ -26,7 +26,7 @@ the aforementioned paper in any resulting publication.
 
 #include<map>
 #include<vector>
-
+#include<string>
 
 #include<io.h>
 #include<iostream>
@@ -92,6 +92,18 @@ private:\
 
 
 /***********************************  gflags  setting     ******************************/
+
+
+	DECLARE_string(infolder);
+	DECLARE_string(gpu);
+	DECLARE_string(imageName);
+	DECLARE_bool(dumpImage);
+	DECLARE_string(dumpName);
+	DECLARE_bool(showEdge);
+	DECLARE_string(edgeSolver);
+	DECLARE_bool(showInitialImage);
+	DECLARE_bool(dumpInitialImage);
+
 	typedef int(*RegisterFunction)(void);
 	typedef std::map<std::string, RegisterFunction> RegisterFunMap;
 	extern RegisterFunMap fun_map;
@@ -129,6 +141,14 @@ private:\
 
 /***********************************  gflags  setting     ******************************/
 
+namespace CUDA
+{
+	extern void get_gpus(std::vector<int>* gpus);
+
+
+
+
+}
 
 
 

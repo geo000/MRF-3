@@ -3,6 +3,58 @@
 
 RegisterFunMap fun_map;
 
+DEFINE_string(infolder, "./", "Optional: root folder , default setting is current workspace.");
+DEFINE_string(gpu, "",
+	"Optional; run in GPU mode on given device IDs separated by ','."
+	"Use '-gpu all' to run on all available GPUs. The effective training "
+	"batch size is multiplied by the number of devices.");
+
+DEFINE_string(imageName, "", "image path for all the testing usage.");
+DEFINE_bool(dumpImage, false, "dump current image to the folder of imageName,rename output as dumpName");
+DEFINE_string(dumpName, "", "dump image name after processing of imageName");
+
+DEFINE_bool(showEdge, false, "display edges of source image.");
+DEFINE_string(edgeSolver, "canny", "edge detection using different kind of methods");
+
+
+DEFINE_bool(showInitialImage, false, "show initial image of synthesis");
+DEFINE_bool(dumpInitialImage, false, "dump initial image of synthesis");
+
+namespace CUDA
+{
+	void get_gpus(std::vector<int>* gpus)
+	{
+		//if (FLAGS_gpu == "all") {
+
+		//	int count = 0;
+		//	CUDA_CHECK(cudaGetDeviceCount(&count));
+
+		//	for (int i = 0; i < count; ++i) {
+		//		gpus->push_back(i);
+		//	}
+		//}
+		//else if (FLAGS_gpu.size()) {
+		//	std::vector<std::string> strings;
+		//	//boost::split(strings, FLAGS_gpu, boost::is_any_of(","));
+		//	for (int i = 0; i < strings.size(); ++i) {
+		//		//gpus->push_back(boost::lexical_cast<int>(strings[i]));
+		//	}
+		//}
+		//else {
+		//	CHECK_EQ(gpus->size(), 0);
+		//}
+
+
+	}
+
+
+
+
+}
+
+
+
+
 namespace TK
 {
 	bool tk_is_file_existed(const char* filename)
