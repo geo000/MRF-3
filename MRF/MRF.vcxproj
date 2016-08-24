@@ -156,7 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="block.h" />
-    <ClInclude Include="clc_common.h" />
+    <ClInclude Include="clc_functions.h" />
     <ClInclude Include="energy.h" />
     <ClInclude Include="GCoptimization.h" />
     <ClInclude Include="graph.h" />

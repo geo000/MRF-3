@@ -1,4 +1,4 @@
-﻿生成启动时间为 8/24/2016 12:24:52 AM。
+﻿生成启动时间为 8/24/2016 11:26:32 PM。
      1>项目“C:\Liygcheng\Research\TimeLapse\cplusplus\MRF\MRF\MRF.vcxproj”在节点 2 上(Rebuild 个目标)。
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I./include /IC:/OpenCV/include /IC:\local\boost_1_56_0 /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0/include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /Zi /nologo /W3 /WX- /sdl /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _MBCS /D _SCL_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt GCoptimization.cpp graph.cpp GraphCut4MRF.cpp LinkedBlockList.cpp main.cpp maxflow.cpp Utility.cpp
@@ -84,4 +84,4 @@
 
 生成成功。
 
-已用时间 00:00:05.04
+已用时间 00:00:04.34

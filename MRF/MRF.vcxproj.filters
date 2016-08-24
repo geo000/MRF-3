@@ -39,7 +39,7 @@
     <ClInclude Include="LinkedBlockList.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="clc_common.h">
+    <ClInclude Include="clc_functions.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

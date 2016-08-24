@@ -1,0 +1,218 @@
+#pragma once
+
+#include"Utility.h"
+
+RegisterFunMap fun_map;
+
+extern int edge_detection(void);
+doRegisteration(edge_detection);
+extern int device_query(void);
+doRegisteration(device_query);
+extern int graph_cut(void);
+doRegisteration(graph_cut);
+extern int slic(void);
+doRegisteration(slic);
+extern int extract_feature(void);
+doRegisteration(extract_feature);
+extern int blending(void);
+doRegisteration(blending);
+
+
+int edge_detection(void)
+{
+
+
+	CHECK_GT(FLAGS_imageName.size(), 0) << " image to be detected should not be empty..";
+
+
+	cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
+
+	cv::Mat gray, result;
+
+	if (!m.data)
+	{
+		std::cout << "read image error,aborting.." << std::endl;
+		return -1;
+	}
+
+	if (FLAGS_edgeSolver == "canny")
+		cv::Canny(m, result, 50, 150, 3);
+	else if (FLAGS_edgeSolver == "sobel")
+		cv::Sobel(m, result, m.depth(), 1, 1);
+	else if (FLAGS_edgeSolver == "laplacian")
+		cv::Laplacian(m, result, m.depth());
+	else
+		LOG(ERROR) << " No other edge detection method.";
+
+
+	if (FLAGS_showEdge)
+	{
+		cv::imshow("edge detection.", result);
+		cv::waitKey(0);
+	}
+
+
+
+	if (FLAGS_dumpImage)
+	{
+		CHECK_GT(FLAGS_dumpName.size(), 0) << "dump name should not be empty.";
+
+		cv::imwrite(FLAGS_dumpName, result);
+	}
+	return  1;
+}
+
+// 1.  edge detection ,sobel,canny,laplacian operator
+
+
+int device_query(void)
+{
+	LOG(INFO) << "Queryings GPUS " << FLAGS_gpu;
+
+	std::vector<int> gpus;
+
+	CUDA::get_gpus(&gpus);
+
+	cudaDeviceProp prop;
+
+	for (int i = 0; i < gpus.size(); ++i) {
+		CUDA_CHECK(cudaGetDeviceProperties(&prop, i));
+		printf("------General Information for GPU %d ---\n", i);
+		printf("Name : %s\n", prop.name);
+		printf("Compute capability: %d.%d\n", prop.major, prop.minor);
+		printf("Clock rate: %d\n", prop.clockRate);
+		printf("Device Copy Overlap: ");
+		if (prop.deviceOverlap) printf("Enabled\n");
+		else printf("Disabled\n");
+		printf("Kernel Execution timeout: ");
+		if (prop.kernelExecTimeoutEnabled) printf("Enabled\n");
+		else printf("Disabled\n");
+
+		printf("------Memory Information for GPU %d ---\n", i);
+		printf("Total global memory: %ld\n", prop.totalGlobalMem);
+		printf("Total constant memory: %ld\n", prop.totalConstMem);
+		printf("Max Mem pitch:	%ld\n", prop.memPitch);
+		printf("Texture Alignment: %ld\n", prop.textureAlignment);
+		printf("Global memory bus width in bytes : %d \n", prop.memoryBusWidth);
+		printf("Memory clock rate : %d \n", prop.memoryClockRate);
+
+		printf("---MP information for device %d ----------\n", i);
+		printf("Multiprocessor  count :   %d \n", prop.multiProcessorCount);
+		printf("Shared mem per block : %ld \n", prop.sharedMemPerBlock);
+		printf("Shared mem per Multiprocessor : %ld \n", prop.sharedMemPerMultiprocessor);
+		printf("Registers  per block:  %d \n", prop.regsPerBlock);
+		printf("Registers  per Multiprocessor:  %d \n", prop.regsPerMultiprocessor);
+		printf("Threads in wrap :  %d  \n", prop.warpSize);
+		printf("Max Threads per block:   %d \n", prop.maxThreadsPerBlock);
+		printf("Max Thread dimension : (%d  ,  %d  ,  %d)\n", prop.maxThreadsDim[0], prop.maxThreadsDim[1], prop.maxThreadsDim[2]);
+		printf("Max Grid dimension : (%d  ,  %d  ,  %d)\n", prop.maxGridSize[0], prop.maxGridSize[1], prop.maxGridSize[2]);
+		printf("unique identifier  for gpu  multiGpuBoardGroupID: %d \n", prop.multiGpuBoardGroupID);
+		printf("asynchronous engine count : %d \n", prop.asyncEngineCount);
+		printf("Device can map host memory with cudaHostAlloc :  %d \n", prop.canMapHostMemory);
+		printf("Compute Mode : ");
+		switch (prop.computeMode)
+		{
+		case cudaComputeMode::cudaComputeModeDefault:
+			printf("cudaComputeModeDefault\n");
+			break;
+		case cudaComputeMode::cudaComputeModeExclusive:
+			printf("cudaComputeModeExclusive\n");
+			break;
+		case cudaComputeMode::cudaComputeModeExclusiveProcess:
+			printf("cudaComputeModeExclusiveProcess\n");
+			break;
+		case cudaComputeMode::cudaComputeModeProhibited:
+			printf("cudaComputeModeProhibited\n");
+			break;
+		default:
+			printf("No other compute mode.\n");
+			break;
+		}
+
+		printf("Device can possibly execute multiple kernels concurrently :  %d \n", prop.concurrentKernels);
+		printf("Device has ECC support enabled :  %d \n", prop.ECCEnabled);
+		printf("Device supports caching globals in L1 : %d \n", prop.globalL1CacheSupported);
+		printf("is integrated : %d \n", prop.integrated);
+		printf("Device is on a multi-GPU board : %d \n", prop.isMultiGpuBoard);
+		printf("Size of L2 cache in bytes : %d \n", prop.l2CacheSize);
+		printf("Device supports caching locals in L1 : %d \n", prop.localL1CacheSupported);
+		printf("Device supports allocating managed memory on this system :  %d \n", prop.managedMemory);
+
+		printf("------Surface Information for GPU %d ---\n", i);
+		printf("Maximum 1D surface size : %d \n", prop.maxSurface1D);
+		printf("Maximum 1D layered surface dimensions : %d  %d\n", prop.maxSurface1DLayered[0], prop.maxSurface1DLayered[1]);
+
+		printf("Maximum 2D surface size : %d  %d \n", prop.maxSurface2D[0], prop.maxSurface2D[1]);
+		printf("Maximum 2D layered surface dimensions : %d  %d  %d\n", prop.maxSurface2DLayered[0], prop.maxSurface2DLayered[1], prop.maxSurface2DLayered[2]);
+
+		printf("Maximum 3D surface size : %d  %d  %d\n", prop.maxSurface3D[0], prop.maxSurface3D[1], prop.maxSurface3D[2]);
+
+		printf("Maximum CubeMap surface dimension : %d \n", prop.maxSurfaceCubemap);
+		printf("Maximum CubeMap layered surface dimension : %d  %d \n", prop.maxSurfaceCubemapLayered[0], prop.maxSurfaceCubemapLayered[1]);
+
+		printf("------Texture Information for GPU %d ---\n", i);
+		printf("Maximum 1D texture size : %d \n", prop.maxTexture1D);
+		printf("Maximum 1D layered texture dimension : %d  %d \n", prop.maxTexture1DLayered[0], prop.maxTexture1DLayered[1]);
+		printf("Maximum size for 1D texture bound to linear memory : %d \n", prop.maxTexture1DLinear);
+		printf("Maximum 1D mipmapped texture size : %d \n", prop.maxTexture1DMipmap);
+
+		printf("Maximum 2D texture dimensions : %d %d \n", prop.maxTexture2D[0], prop.maxTexture2D[1]);
+		printf("Maximum 2D texture dimensions if texture gather operations to be performed : %d  %d \n", prop.maxTexture2DGather[0], prop.maxTexture2DGather[1]);
+		printf("Maximum 2D layered texture dimensions : %d  %d  %d \n", prop.maxTexture2DLayered[0], prop.maxTexture2DLayered[1], prop.maxTexture2DLayered[2]);
+		printf("Maximum dimensions (width  height pitch) for 2D textures bound to pitched memory : %d  %d  %d  \n", prop.maxTexture2DLinear[0], prop.maxTexture2DLinear[1], prop.maxTexture2DLinear[2]);
+		printf("Maximum 2D mipmapped texture dimensions :  %d  %d  \n", prop.maxTexture2DMipmap[0], prop.maxTexture2DMipmap[1]);
+
+		printf("Maximum 3D texture dimensions : %d  %d  %d \n", prop.maxTexture3D[0], prop.maxTexture3D[1], prop.maxTexture3D[2]);
+		printf("Maximum 3D alternate texture dimensions : %d  %d  %d \n", prop.maxTexture3DAlt[0], prop.maxTexture3DAlt[1], prop.maxTexture3DAlt[2]);
+
+		printf("Maximum cubemap texture dimensions : %d  \n", prop.maxTextureCubemap);
+		printf("Maximnum cubemap layered dimensions : %d  %d \n", prop.maxTextureCubemapLayered[0], prop.maxTextureCubemapLayered[1]);
+
+		printf("PCI   bus  ID  of Device :  %d \n", prop.pciBusID);
+		printf("PCI   device  ID  of Device :  %d \n", prop.pciDeviceID);
+		printf("PCI   domain  ID  of Device :  %d \n", prop.pciDomainID);
+		printf("Device  support stream priority :  %d \n", prop.streamPrioritiesSupported);
+		printf("Alignment requirement for surfaces :  %d \n", prop.surfaceAlignment);
+		if (prop.tccDriver)
+			printf("Device is a Tesla device  using TCC  driver \n");
+		else
+			printf("Other dirver, not (Tesla + TCC)\n");
+		printf("Pitch alignment requirement for texture  reference bound to pitched memory :%d\n", prop.texturePitchAlignment);
+		printf("Device shares a unified  address space with the host :  %d \n", prop.unifiedAddressing);
+
+
+
+
+
+	}
+
+	return 1;
+}
+
+
+int graph_cut(void)
+{
+	printf("graph_cut\n");
+	return 1;
+}
+
+
+int slic(void)
+{
+	printf("slic\n");
+	return 1;
+}
+
+
+int extract_feature(void)
+{
+	printf("extract_feature\n");
+	return 1;
+}
+
+
+int blending(void)
+{
+	printf("blending");
+	return 1;
+}

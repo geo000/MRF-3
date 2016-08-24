@@ -2,88 +2,7 @@
 
 #include"GraphCut4MRF.h"
 
-
-
-RegisterFunMap fun_map;
-
-
-// 1.  edge detection ,sobel,canny,laplacian operator
-int edge_detection(void)
-{
-
-
-	CHECK_GT(FLAGS_imageName.size(), 0) << " image to be detected should not be empty..";
-
-
-	cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
-
-	cv::Mat gray, result;
-
-	if (!m.data)
-	{
-		std::cout << "read image error,aborting.." << std::endl;
-		return -1;
-	}
-
-	if (FLAGS_edgeSolver == "canny")	
-		cv::Canny(m, result, 50, 150,3);	
-	else if (FLAGS_edgeSolver == "sobel")	
-		cv::Sobel(m, result, m.depth(), 1, 1);
-	else if (FLAGS_edgeSolver == "laplacian")
-		cv::Laplacian(m,result,m.depth());
-	else
-		LOG(ERROR) << " No other edge detection method.";
-	
-
-	if (FLAGS_showEdge)
-	{
-		cv::imshow("edge detection.", result);
-		cv::waitKey(0);
-	}
-
-	
-
-	if (FLAGS_dumpImage)
-	{
-		CHECK_GT(FLAGS_dumpName.size(), 0) << "dump name should not be empty.";
-
-		cv::imwrite(FLAGS_dumpName, result);
-	}
-	return  1;
-}
-doRegisteration(edge_detection);
-
-int device_query(void)
-{
-	LOG(INFO) << "Queryings GPUS " << FLAGS_gpu;
-
-	std::vector<int> gpus;
-
-	CUDA::get_gpus(&gpus);
-
-	cudaDeviceProp prop;
-
-	for (int i = 0; i < gpus.size(); ++i) {
-		CUDA_CHECK(cudaGetDeviceProperties(&prop,i));
-		printf("------General Information for GPU %d ---\n",i);
-		printf("Name : %s\n",prop.name);
-		printf("Compute capability: %d.%d\n",prop.major,prop.minor);
-		printf("Clock rate: %d\n", prop.clockRate);
-		printf("Device Copy Overlap: ");
-		if (prop.deviceOverlap) printf("Enabled\n");
-		else printf("Disabled\n");
-		printf("Kernel Execution timeout: ");
-		if (prop.kernelExecTimeoutEnabled) printf("Enabled\n");
-		else printf("Disabled\n");
-
-		printf("------Memory Information for GPU %d ---\n", i);
-		printf("Total global memory: %ld\n",prop.totalGlobalMem);
-
-	}
-
-	return 1;
-}
-doRegisteration(device_query);
+#include"clc_functions.h"
 
 
 
@@ -116,8 +35,11 @@ int main(int argc,char** argv)
 		"usage: MRF <command> <args>\n\n"
 		"commands:\n"
 		"	edge_detection\n(detect edges of source image using canny,sobel,laplacian )\n "
-		"	graphcut\n(solve a graphcut problem using alpha-expansion or alpha_beta swap)\n"
-		"	device_query\n(show GPU diagnostic information)\n");
+		"	graph_cut\n(solve a graph_cut problem using alpha-expansion or alpha_beta swap)\n"
+		"	device_query\n(show GPU diagnostic information)\n"
+		"   slic \n (superpixel of an image)\n"
+		"   extract_feature \n(extract kinds of features)\n"
+		"   blending \n(pyramid blending , gradient domain blending..)\n");
 
 
 	gflags::ParseCommandLineFlags(&argc, &argv, true);
