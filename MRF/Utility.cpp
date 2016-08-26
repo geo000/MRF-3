@@ -20,6 +20,11 @@ DEFINE_string(edgeSolver, "canny", "edge detection using different kind of metho
 
 DEFINE_bool(showInitialImage, false, "show initial image of synthesis");
 DEFINE_bool(dumpInitialImage, false, "dump initial image of synthesis");
+DEFINE_string(graphSolver,"","graph cut solver method,alpha-expansion,alpha-beta-swap");
+
+int CUDA_GET_BLOCKS(const int N) {
+	return (N + CUDA_NUM_THREADS - 1) / CUDA_NUM_THREADS;
+}
 
 
 namespace CUDA
@@ -49,9 +54,8 @@ namespace CUDA
 	}
 
 
+
 }
-
-
 
 
 namespace TK
@@ -65,6 +69,13 @@ namespace TK
 		}
 
 		return false;
+	}
+
+	bool tk_make_file(const char* filename){
+
+		if (tk_is_file_existed(filename))  return false;
+		_mkdir(filename);
+		return true;		
 	}
 
 	template<class T>
@@ -115,6 +126,22 @@ namespace TK
 		printf("check Done\n");
 		return true;
 	}
+	template<>
+	bool tk_check(double**  data, int Y, int X){
+		for (int y = 0; y < Y; ++y)
+		{
+			for (int x = 0; x < X; ++x)
+			{
+				if (data[y][x] < 0)
+
+					printf("data[%d][%d] = %f \n", y, x, data[y][x]);
+			}
+
+		}
+
+		printf("check Done\n");
+		return true;
+	}
 
 	template<class T>
 	bool tk_memset(T** data, int Y, int X)
@@ -132,9 +159,22 @@ namespace TK
 		printf("memset  Done\n");
 		return true;
 	}
+	template<>
+	bool tk_memset(double**  data, int Y, int X){
+		for (int y = 0; y < Y; ++y)
+		{
+			for (int x = 0; x < X; ++x)
+			{
+				data[y][x] = 0;
+			}
 
+		}
 
-	bool tk_save_img(const cv::Mat img, const char* filename)
+		printf("memset  Done\n");
+		return true;
+	}
+
+	bool tk_save_img(const cv::Mat img, const std::string& filename)
 	{
 		if (!img.data)
 		{
@@ -412,5 +452,33 @@ namespace TK
 		 return "Unknown curand status";
 	 }
 
+	void tk_get_mat_array(const std::string & filename, MatArray& output)
+	{
+		LOG(INFO) << " Load mat infos from text file\n";
+		std::string matfile;
+		std::ifstream in(filename.c_str());
+
+		if (!TK::tk_is_file_existed(filename.c_str())){
+			LOG(ERROR) << "filename "<<filename<<" is not existed."; 
+			return;
+		}
+
+
+		while (in >> matfile)
+		{
+			cv::Mat m = cv::imread(matfile, CV_LOAD_IMAGE_UNCHANGED);
+
+			if (!m.data)
+			{
+				std::cout << "read image error,aborting.." << std::endl;
+				break;
+			}
+
+			output.push_back(m);
+		}
+
+		in.close();
+
+	}
 
 }

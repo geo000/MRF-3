@@ -192,7 +192,49 @@ int device_query(void)
 
 int graph_cut(void)
 {
-	printf("graph_cut\n");
+
+	LOG(INFO) << "graph cut for markov random field\n";
+	
+	CHECK_GT(FLAGS_infolder.size(), 0) << " root  folder  (for source , slic ,dist and scribble points) should not be empty .\n";
+
+	
+
+	MatArray m_source, m_slic, m_dist,m_pointMask;
+
+	std::string  infolder(FLAGS_infolder);
+
+	std::string  subtotal;
+	subtotal.assign("./subtotal");
+	TK::tk_make_file(subtotal.c_str());
+	
+	TK::tk_get_mat_array(infolder + "/source.txt", m_source);
+	TK::tk_get_mat_array(infolder + "/labels.txt", m_slic);
+	TK::tk_get_mat_array(infolder + "/distField.txt", m_dist);
+	TK::tk_get_mat_array(infolder + "/pointMask.txt", m_pointMask);
+
+
+	GraphCut4MRF* m_GraphCut = new GraphCut4MRF(m_source, m_slic, m_dist,m_pointMask);
+
+
+	m_GraphCut->initGraph(infolder+"/InitLabel.png");
+
+	m_GraphCut->saveMask(subtotal + "/InitMask.png");
+	m_GraphCut->showResult(true,subtotal+"/InitResult.png");
+
+	if (FLAGS_graphSolver == "alpha-expansion")
+		m_GraphCut->graphCutOptimization(1, "", GraphCut4MRF::SolverMethod::Alpha_Expansion);
+	else if (FLAGS_graphSolver == "alpha-beta-swap")
+		m_GraphCut->graphCutOptimization(1, "", GraphCut4MRF::SolverMethod::Alpha_Beta_Swap);
+
+	      
+	
+
+	m_GraphCut->saveMask(subtotal + "/mask_patch.png");
+
+	TK::tk_save_img(m_GraphCut->GetResult(),subtotal+"/result.png");
+
+
+	
 	return 1;
 }
 

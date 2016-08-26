@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="block.h" />
     <ClInclude Include="clc_functions.h" />
+    <ClInclude Include="cuda_utility.cuh" />
     <ClInclude Include="energy.h" />
     <ClInclude Include="GCoptimization.h" />
     <ClInclude Include="graph.h" />
@@ -174,10 +175,12 @@
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="GraphCut4MRF.cu">
-      <FileType>Document</FileType>
-      <TargetMachinePlatform Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">64</TargetMachinePlatform>
-    </None>
+    <CudaCompile Include="cuda_utility.cu">
+      <TargetMachinePlatform Condition="'$(Configuration)|$(Platform)'=='Release|x64'">64</TargetMachinePlatform>
+    </CudaCompile>
+    <CudaCompile Include="GraphCut4MRF.cu">
+      <TargetMachinePlatform Condition="'$(Configuration)|$(Platform)'=='Release|x64'">64</TargetMachinePlatform>
+    </CudaCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

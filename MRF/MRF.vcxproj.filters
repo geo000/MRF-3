@@ -42,6 +42,9 @@
     <ClInclude Include="clc_functions.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="cuda_utility.cuh">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -67,8 +70,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="GraphCut4MRF.cu">
+    <CudaCompile Include="cuda_utility.cu">
       <Filter>源文件</Filter>
-    </None>
+    </CudaCompile>
+    <CudaCompile Include="GraphCut4MRF.cu">
+      <Filter>源文件</Filter>
+    </CudaCompile>
   </ItemGroup>
 </Project>

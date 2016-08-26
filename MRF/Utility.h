@@ -27,8 +27,8 @@ the aforementioned paper in any resulting publication.
 #include<map>
 #include<vector>
 #include<string>
-#include "boost/algorithm/string.hpp"
-#include"boost\lexical_cast.hpp"
+//#include "boost/algorithm/string.hpp"
+//#include"boost\lexical_cast.hpp"
 
 //standard lib(STL or boost)
 
@@ -39,6 +39,7 @@ the aforementioned paper in any resulting publication.
 #include<sstream>
 #include<ctime>
 #include<assert.h>
+#include<direct.h>
 
 
 //cuda header
@@ -68,6 +69,21 @@ the aforementioned paper in any resulting publication.
 	curandStatus_t status =  condition;\
 	CHECK_EQ(status,CURAND_STATUS_SUCCESS)<<" "\
 	<<TK::curandGetErrorString(status);\
+
+// CUDA: grid stride looping
+#define CUDA_KERNEL_LOOP(i, n) \
+  for (int i = blockIdx.x * blockDim.x + threadIdx.x; \
+       i < (n); \
+       i += blockDim.x * gridDim.x)
+
+// CUDA: check for error after kernel execution and exit loudly if there is one.
+#define CUDA_POST_KERNEL_CHECK CUDA_CHECK(cudaPeekAtLastError())
+
+// CUDA: use 512 threads per block
+const int CUDA_NUM_THREADS = 1024;
+
+// CUDA: number of blocks for threads.
+extern int CUDA_GET_BLOCKS(const int N); 
 
 /***********************************  cuda macros **************************************/
 
@@ -107,6 +123,7 @@ private:\
 	DECLARE_string(edgeSolver);
 	DECLARE_bool(showInitialImage);
 	DECLARE_bool(dumpInitialImage);
+	DECLARE_string(graphSolver);
 
 	typedef int(*RegisterFunction)(void);
 	typedef std::map<std::string, RegisterFunction> RegisterFunMap;
@@ -158,6 +175,8 @@ namespace TK
 {
 	extern  bool tk_is_file_existed(const char* filename);
 
+	extern  bool tk_make_file(const char* filename);
+
 	template<class T>
 	extern bool tk_normalize(T** data, int Y, int X);
 
@@ -169,7 +188,7 @@ namespace TK
 	extern bool tk_memset(T** data, int Y, int X);
 
 
-	extern bool tk_save_img(const cv::Mat img, const char* filename = "./subtotal/result.png");
+	extern bool tk_save_img(const cv::Mat img, const std::string& filename );
 
 	template<class T>
 	extern bool tk_dump_vec(const std::vector<std::vector<T>> data, int Y, int X, const char* filename);
@@ -177,11 +196,7 @@ namespace TK
 	template<class T>
 	extern bool tk_elicit_vec(std::vector<std::vector<T>> & data, int Y, int X, const char* filename);
 
-
-
 	extern bool tk_dump_points(const std::vector<std::vector<cv::Point>> data, const char* filename);
-
-
 
 	extern bool tk_elicit_points(std::vector<std::vector<cv::Point>> & data, const char* filename);
 
@@ -197,6 +212,8 @@ namespace TK
 
 	extern const char* cublasGetErrorString(cublasStatus_t error);
 	extern const char* curandGetErrorString(curandStatus_t error);
+
+	extern void tk_get_mat_array(const std::string & filename, MatArray& output);
 
 
 }

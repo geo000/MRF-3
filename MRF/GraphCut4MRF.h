@@ -261,7 +261,7 @@ public:
 
 	bool  initGraph(void);
 
-	inline void  initGraph(const char* filename)
+	inline void  initGraph(const std::string & filename)
 	{
 		cv::Mat m = cv::imread(filename, CV_LOAD_IMAGE_UNCHANGED);
 
@@ -284,12 +284,12 @@ public:
 
 		}
 		
-		showResult();
+		//showResult();
 	}
 	
 	void  graphCutOptimization(int max_iter, std::string tag, SolverMethod  solver = SolverMethod::Alpha_Expansion);
 
-	void  showResult(bool saveimage = false);
+	void  showResult(bool saveimage = false, const std::string& filename="");
 
 public:
 
@@ -309,7 +309,7 @@ public:
 		return m_result;
 	}
 
-	inline  void saveMask(const char* filename = "./subtotal/mask.png")
+	inline  void saveMask(const std::string filename)
 	{
 
 		int nr = m_result.rows;
@@ -334,7 +334,7 @@ public:
 		cv::imshow("result", mask);
 
 		
-		TK::tk_save_img(mask, filename);
+		TK::tk_save_img(mask, filename.c_str());
 
 		cv::waitKey(0);
 
