@@ -1,6 +1,6 @@
 #include"GraphCut4MRF.h"
 
-
+#include"cuda_utility.cuh"
 
 GraphCut4MRF::~GraphCut4MRF()
 {
@@ -29,6 +29,8 @@ bool GraphCut4MRF::initGraph(void)
 	else
 	{
 
+
+
 		for (int i = 0; i < m_labels_num; ++i)
 		{
 			std::vector<cv::Point> points;
@@ -38,7 +40,7 @@ bool GraphCut4MRF::initGraph(void)
 			{
 				int x, y;
 				decode(x, y, j);
-
+				 
 				uchar ch1 = (m_pointMask[i].at<uchar>(y, x));
 				if (ch1 < MAX_VALUE)
 					points.push_back(cv::Point(y, x));

@@ -18,6 +18,10 @@ extern int blending(void);
 doRegisteration(blending);
 
 
+
+extern int test(void);
+doRegisteration(test);
+
 int edge_detection(void)
 {
 
@@ -256,5 +260,13 @@ int extract_feature(void)
 int blending(void)
 {
 	printf("blending");
+	return 1;
+}
+
+
+int test(void)
+{
+
+
 	return 1;
 }
