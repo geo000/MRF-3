@@ -418,8 +418,8 @@ private:
 
 	cv::Mat m_result;
 
-	std::vector< std::vector<cv::Point> > m_points;
-	std::vector< std::vector<cv::Point> > m_slicPoints;
+	PointsArrays m_points;
+	PointsArrays m_slicPoints;
 
 	DISABLE_COPY_AND_ASSIGN(GraphCut4MRF);
 

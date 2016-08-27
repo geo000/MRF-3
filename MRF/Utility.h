@@ -105,6 +105,7 @@ private:\
 /***********************************  graphcut definition ******************************/
 	typedef std::vector<cv::Mat>  MatArray;
 	typedef std::vector<std::string> StrArray;
+	typedef std::vector< std::vector<cv::Point> > PointsArrays;
 	extern class GraphCut4MRF;
 	extern class MyDataCostFunctor;
 	extern class MySmoothCostFunctor;
