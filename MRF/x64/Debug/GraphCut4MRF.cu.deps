@@ -931,3 +931,6 @@ C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0/include\thrust/detail/de
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0/include\thrust/device_free.h
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0/include\thrust/detail/device_free.inl
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0/include\thrust/detail/device_vector.inl
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0/include\texture_fetch_functions.h
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0/include\texture_types.h
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0/include\cuda_texture_types.h

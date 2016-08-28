@@ -48,6 +48,7 @@ the aforementioned paper in any resulting publication.
 #include <cuda_runtime.h>
 #include <curand.h>
 #include <driver_types.h>  // cuda driver types
+
 //cuda header 
 
 //
@@ -79,7 +80,7 @@ the aforementioned paper in any resulting publication.
 // CUDA: check for error after kernel execution and exit loudly if there is one.
 #define CUDA_POST_KERNEL_CHECK CUDA_CHECK(cudaPeekAtLastError())
 
-// CUDA: use 512 threads per block
+// CUDA: use 1024 threads per block
 const int CUDA_NUM_THREADS = 1024;
 
 // CUDA: number of blocks for threads.
@@ -89,6 +90,7 @@ extern int CUDA_GET_BLOCKS(const int N);
 
 
 /***********************************  some useful macros  ******************************/
+
 // Disable the copy and assignment operator for a class.
 #define DISABLE_COPY_AND_ASSIGN(classname) \
 private:\
