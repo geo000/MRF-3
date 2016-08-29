@@ -24,13 +24,13 @@ extern cudaEvent_t end_timer;
 
 
 namespace CUDA{
-
+	
 
 	//cuda kernels' function 
-	extern __global__ void kernel_get_points(uchar* data, thrust::device_vector<device_point>& device_slic_vec, const int pixel_num, const int width, const int height);
+	//extern __global__ void kernel_get_points(uchar* data, thrust::device_vector<device_point>& device_slic_vec, const int pixel_num, const int width);
 
 	//  wrapper
-	extern   void get_scribble_points(const MatArray& pointsMask, const MatArray& slicPointsMask, PointsArrays& points, PointsArrays& slicPoints);
+	//extern   void get_scribble_points(const MatArray& pointsMask, const MatArray& slicPointsMask, PointsArrays& points, PointsArrays& slicPoints);
 
 
 }

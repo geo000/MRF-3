@@ -70,8 +70,5 @@
     <CudaCompile Include="cuda_utility.cu">
       <Filter>源文件</Filter>
     </CudaCompile>
-    <CudaCompile Include="GraphCut4MRF.cu">
-      <Filter>源文件</Filter>
-    </CudaCompile>
   </ItemGroup>
 </Project>

@@ -324,6 +324,31 @@ namespace TK
 		return true;
 	}
 
+	template<>
+	bool tk_dump_malloc(double** data, int Y, int X, const char* filename){
+		std::fstream out(filename, std::ios::out);
+
+		if (!out)
+		{
+			std::cout << "Open File Error" << std::endl;
+			return false;
+		}
+
+		for (int y = 0; y < Y; ++y)
+		{
+			for (int x = 0; x < X; ++x)
+			{
+				out << data[y][x] << " ";
+			}
+			out << std::endl;
+		}
+		out.close();
+
+		printf("dump file Done --->%s\n", filename);
+	
+		return true;
+	}
+
 	template<class T>	
 	bool tk_elicit_malloc(T** & data, int Y, int X, const char* filename)
 	{
@@ -419,7 +444,7 @@ namespace TK
 		 }
 		 return "Unknown cublas status";
 	 }
-
+	 
 	const char* curandGetErrorString(curandStatus_t error) {
 		 switch (error) {
 		 case CURAND_STATUS_SUCCESS:

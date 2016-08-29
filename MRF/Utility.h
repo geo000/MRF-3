@@ -109,8 +109,19 @@ private:\
 
 typedef struct device_point
 {
-	int x;
-	int y;
+	int m_x;
+	int m_y;
+
+	__device__ device_point(int x,int y)
+	{
+		m_x = x;
+		m_y = y;
+	}
+	__device__ device_point()
+	{
+		m_x = 0;
+		m_y = 0;
+	}
 }device_point;
 
 /***********************************  some useful macros  ******************************/
@@ -120,7 +131,7 @@ typedef struct device_point
 /***********************************  graphcut definition ******************************/
 	typedef std::vector<cv::Mat>  MatArray;
 	typedef std::vector<std::string> StrArray;
-	typedef std::vector< std::vector<device_point> > PointsArrays;
+	typedef std::vector< std::vector<cv::Point> > PointsArrays;
 	extern class GraphCut4MRF;
 	extern class MyDataCostFunctor;
 	extern class MySmoothCostFunctor;

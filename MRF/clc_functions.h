@@ -218,7 +218,7 @@ int graph_cut(void)
 	TK::tk_get_mat_array(infolder + "/pointMask.txt", m_pointMask);
 
 
-	GraphCut4MRF* m_GraphCut = new GraphCut4MRF(m_source, m_slic, m_dist,m_pointMask);
+	GraphCut4MRF* m_GraphCut = new GraphCut4MRF(FLAGS_infolder,subtotal, m_source, m_slic, m_dist, m_pointMask);
 
 
 	m_GraphCut->initGraph(infolder+"/InitLabel.png");
