@@ -1,3 +1,6 @@
+#ifndef _CUDA_UTILITY_CU
+#define _CUDA_UTILITY_CU
+
 #include"cuda_utility.cuh"
 
  cudaEvent_t start_timer;
@@ -19,41 +22,74 @@ printf("Total time : %3.1f ms\n",elapsedTime);	\
 CUDA_CHECK(cudaEventDestroy(start_timer));		\
 CUDA_CHECK(cudaEventDestroy(end_timer));		\
 
-namespace CUDA{
 
-	
-	__global__ void kernel_get_points(const uchar* pointMask, thrust::device_vector<device_point>& device_points_vec, const int pixel_num)
-	{
-		int offset = threadIdx.x + threadIdx.y *blockDim.x;
+ namespace CUDA{
 
-		if (offset >= pixel_num)  return;
+	 __global__ void kernel_get_points(uchar* data, thrust::device_vector<device_point>& device_slic_vec, const int pixel_num, const int width, const int height)
+	 {
+		 int offset = threadIdx.x + blockIdx.x * blockDim.x;
 
-		uchar ch = pointMask[offset];
-		if (ch < MAX_VALUE){
-			 
-
-
-		}
-		
-	}
-	// 
-	void get_scribble_points(const MatArray& pointsMask, const MatArray& slicPointsMask, PointsArrays& points, PointsArrays& slicPoints){
-
-
-		//get basic infos
-		int label_num = pointsMask.size();
-		
-		CHECK_GT(label_num, 0) << "Label_num must greater to 0.\n";
-
-		int width  = pointsMask[0].cols;	// width	->     cols   -   x
-		int height = pointsMask[0].rows;	// height	->     rows   -   y
+		 if (offset >= pixel_num)  return;
+		 uchar ch = data[offset];
+		 if (ch < MAX_VALUE)
+		 {
 
 
 
+		 }
+
+	 }
+	 // 
+	 void get_scribble_points(const MatArray& pointsMask, const MatArray& slicPointsMask, PointsArrays& points, PointsArrays& slicPoints){
 
 
-	}
+		 //get basic infos
+		 int label_num = pointsMask.size();
+
+		 CHECK_GT(label_num, 0) << "Label_num must greater to 0.\n";
+
+		 int width = pointsMask[0].cols;	// width	->     cols   -   x
+		 int height = pointsMask[0].rows;	// height	->     rows   -   y
+		 int pixel_num = width * height;//
+
+		 // device data pointers
+		 uchar* device_masks;
+		 uchar* device_slic_masks;
+
+		 // cudaMalloc
+		 CUDA_CHECK(cudaMalloc((void**)&device_masks, sizeof(uchar) * pixel_num));
+		 CUDA_CHECK(cudaMalloc((void**)&device_slic_masks, sizeof(uchar) * pixel_num));
+
+		 thrust::device_vector<device_point>	device_points_result, device_slic_result;
+
+		 for (size_t i = 0; i < label_num; ++i)
+		 {
+			 //data clear
+			 device_points_result.clear();
+			 device_slic_result.clear();
+
+			 //step 1: copy data to device
+			 CUDA_CHECK(cudaMemcpy(device_masks, (void*)pointsMask[i].data, sizeof(uchar) * pixel_num, cudaMemcpyHostToDevice));
+			 CUDA_CHECK(cudaMemcpy(device_slic_masks, (void*)slicPointsMask[i].data, sizeof(uchar) * pixel_num, cudaMemcpyHostToDevice));
+
+			 //step 2: execute kernel
+			 CUDA::kernel_get_points << <CUDA_GET_BLOCKS(pixel_num), CUDA_NUM_THREADS >> >(device_masks, device_points_result, pixel_num, width,height);
+
+			 CUDA::kernel_get_points << <CUDA_GET_BLOCKS(pixel_num), CUDA_NUM_THREADS >> >(device_slic_masks, device_slic_result, pixel_num, width, height);
+
+			 //step 3: get data back
+			 std::vector<device_point> temp_points(device_points_result.begin(), device_points_result.end());
+			 std::vector<device_point> temp_slic_points(device_slic_result.begin(), device_slic_result.end());
+
+			 points.push_back(temp_points);
+			 slicPoints.push_back(temp_slic_points);
+		 }
 
 
 
-}
+
+
+	 }
+
+ }
+#endif

@@ -113,6 +113,7 @@ int device_query(void)
 		printf("unique identifier  for gpu  multiGpuBoardGroupID: %d \n", prop.multiGpuBoardGroupID);
 		printf("asynchronous engine count : %d \n", prop.asyncEngineCount);
 		printf("Device can map host memory with cudaHostAlloc :  %d \n", prop.canMapHostMemory);
+		
 		printf("Compute Mode : ");
 		switch (prop.computeMode)
 		{

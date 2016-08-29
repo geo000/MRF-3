@@ -22,8 +22,8 @@ bool GraphCut4MRF::initGraph(void)
 	if (TK::tk_is_file_existed("./subtotal/m_points.txt") && TK::tk_is_file_existed("./subtotal/m_slicPoints.txt"))
 	{
 
-		TK::tk_elicit_points(m_points, "./subtotal/m_points.txt");
-		TK::tk_elicit_points(m_slicPoints, "./subtotal/m_slicPoints.txt");
+		//TK::tk_elicit_points(m_points, "./subtotal/m_points.txt");
+		//TK::tk_elicit_points(m_slicPoints, "./subtotal/m_slicPoints.txt");
 
 	}
 	else
@@ -31,34 +31,34 @@ bool GraphCut4MRF::initGraph(void)
 
 
 
-		for (int i = 0; i < m_labels_num; ++i)
-		{
-			std::vector<cv::Point> points;
-			std::vector<cv::Point> slicPoints;
+		//for (int i = 0; i < m_labels_num; ++i)
+		//{
+		//	std::vector<cv::Point> points;
+		//	std::vector<cv::Point> slicPoints;
 
-			for (int j = 0; j < m_numpixels; ++j)
-			{
-				int x, y;
-				decode(x, y, j);
-				 
-				uchar ch1 = (m_pointMask[i].at<uchar>(y, x));
-				if (ch1 < MAX_VALUE)
-					points.push_back(cv::Point(y, x));
+		//	for (int j = 0; j < m_numpixels; ++j)
+		//	{
+		//		int x, y;
+		//		decode(x, y, j);
+		//		 
+		//		uchar ch1 = (m_pointMask[i].at<uchar>(y, x));
+		//		if (ch1 < MAX_VALUE)
+		//			points.push_back(cv::Point(y, x));
 
-				uchar ch2 = (m_dist_field[i].at<uchar>(y, x));
-				if (ch2 < MAX_VALUE)
-					slicPoints.push_back(cv::Point(y, x));
+		//		uchar ch2 = (m_dist_field[i].at<uchar>(y, x));
+		//		if (ch2 < MAX_VALUE)
+		//			slicPoints.push_back(cv::Point(y, x));
 
-			}
+		//	}
 
-			printf("points size = %d  ,slic points size = %d \n", points.size(), slicPoints.size());
-			if (points.size() < 10) { points.clear(); slicPoints.clear(); }
+		//	printf("points size = %d  ,slic points size = %d \n", points.size(), slicPoints.size());
+		//	if (points.size() < 10) { points.clear(); slicPoints.clear(); }
 
 
-			m_points.push_back(points);
-			m_slicPoints.push_back(slicPoints);
+		//	m_points.push_back(points);
+		//	m_slicPoints.push_back(slicPoints);
 
-		}
+		//}
 
 		//dump
 
@@ -174,35 +174,35 @@ bool MyDataCostFunctor::initUnaryCost(void)
 		else
 		{
 
-			std::vector< std::vector<cv::Point> > temp_points;
+			//std::vector< std::vector<cv::Point> > temp_points;
 
-			std::copy(m_gc_controller->m_points.begin(), m_gc_controller->m_points.end(), std::back_inserter(temp_points));  // copy  duplicate  to temp
-
-
-			for (int i = 0; i < m_gc_controller->m_labels_num; ++i)
-			{
-				int len = temp_points[i].size();
-
-				if (len < 10) continue;
-
-				for (int j = 0; j < len; ++j)
-				{
-					int y = temp_points[i][j].x;
-					int x = temp_points[i][j].y;
-
-					int s = m_gc_controller->encode(x, y);
-
-					for (int k = 0; k < m_gc_controller->m_labels_num; ++k)
-					{
-						if (i == k) continue;
-						m_unarycost[k][s] = INF_VALUE;
-
-					}
+			//std::copy(m_gc_controller->m_points.begin(), m_gc_controller->m_points.end(), std::back_inserter(temp_points));  // copy  duplicate  to temp
 
 
-				}
+			//for (int i = 0; i < m_gc_controller->m_labels_num; ++i)
+			//{
+			//	int len = temp_points[i].size();
 
-			}
+			//	if (len < 10) continue;
+
+			//	for (int j = 0; j < len; ++j)
+			//	{
+			//		int y = temp_points[i][j].x;
+			//		int x = temp_points[i][j].y;
+
+			//		int s = m_gc_controller->encode(x, y);
+
+			//		for (int k = 0; k < m_gc_controller->m_labels_num; ++k)
+			//		{
+			//			if (i == k) continue;
+			//			m_unarycost[k][s] = INF_VALUE;
+
+			//		}
+
+
+			//	}
+
+			//}
 
 
 			//dump 

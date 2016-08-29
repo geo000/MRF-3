@@ -21,7 +21,8 @@ the aforementioned paper in any resulting publication.
 
 
 
-#pragma once
+#ifndef _UTILITY_H_
+#define _UTILITY_H_
 
 // standard lib (STL or boost)
 #include<map>
@@ -46,6 +47,7 @@ the aforementioned paper in any resulting publication.
 #include <cublas_v2.h>
 #include <cuda.h>
 #include <cuda_runtime.h>
+#include <cuda_runtime_api.h>
 #include <curand.h>
 #include <driver_types.h>  // cuda driver types
 
@@ -57,19 +59,24 @@ the aforementioned paper in any resulting publication.
 
 /***********************************  cuda macros **************************************/
 #define CUDA_CHECK(condition) \
-	/*code block avoids redefinition of cudaError_t error */	\
+		{/*code block avoids redefinition of cudaError_t error */	\
 	cudaError_t error = condition;								\
 	CHECK_EQ(error,cudaSuccess)<<""<<cudaGetErrorString(error); \
+		}														\
 
 #define CUBLAS_CHECK(condition)\
+				{				\
 		cublasStatus_t status = condition;\
 		CHECK_EQ(status,CUBLAS_STATUS_SUCCESS) <<" " \
 		<< TK::cublasGetErrorString(status);\
+				}							\
 
 #define CURAND_CHECK(condition)\
+								{\
 	curandStatus_t status =  condition;\
 	CHECK_EQ(status,CURAND_STATUS_SUCCESS)<<" "\
 	<<TK::curandGetErrorString(status);\
+		}\
 
 // CUDA: grid stride looping
 #define CUDA_KERNEL_LOOP(i, n) \
@@ -100,6 +107,12 @@ private:\
 #define MAX_VALUE 255
 #define INF_VALUE 10000000
 
+typedef struct device_point
+{
+	int x;
+	int y;
+}device_point;
+
 /***********************************  some useful macros  ******************************/
 
 
@@ -107,7 +120,7 @@ private:\
 /***********************************  graphcut definition ******************************/
 	typedef std::vector<cv::Mat>  MatArray;
 	typedef std::vector<std::string> StrArray;
-	typedef std::vector< std::vector<cv::Point> > PointsArrays;
+	typedef std::vector< std::vector<device_point> > PointsArrays;
 	extern class GraphCut4MRF;
 	extern class MyDataCostFunctor;
 	extern class MySmoothCostFunctor;
@@ -220,3 +233,6 @@ namespace TK
 
 
 }
+
+
+#endif
