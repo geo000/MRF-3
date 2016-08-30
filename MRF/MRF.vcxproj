@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="block.h" />
     <ClInclude Include="clc_functions.h" />
+    <ClInclude Include="clc_mouse.h" />
     <ClInclude Include="cuda_utility.cuh" />
     <ClInclude Include="energy.h" />
     <ClInclude Include="GCoptimization.h" />

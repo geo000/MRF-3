@@ -2,6 +2,8 @@
 
 #include"Utility.h"
 
+#include"clc_mouse.h"
+
 RegisterFunMap fun_map;
 
 extern int edge_detection(void);
@@ -17,17 +19,19 @@ doRegisteration(extract_feature);
 extern int blending(void);
 doRegisteration(blending);
 
-
+extern int scribble(void);
+doRegisteration(scribble);
 
 extern int test(void);
 doRegisteration(test);
 
+// 1.  edge detection ,sobel,canny,laplacian operator
 int edge_detection(void)
 {
 
 
 	CHECK_GT(FLAGS_imageName.size(), 0) << " image to be detected should not be empty..";
-
+	CHECK_GT(FLAGS_dumpName.size(), 0) << "dump name should not be empty.";
 
 	cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
 
@@ -49,24 +53,17 @@ int edge_detection(void)
 		LOG(ERROR) << " No other edge detection method.";
 
 
-	if (FLAGS_showEdge)
-	{
+
 		cv::imshow("edge detection.", result);
 		cv::waitKey(0);
-	}
+	
 
-
-
-	if (FLAGS_dumpImage)
-	{
-		CHECK_GT(FLAGS_dumpName.size(), 0) << "dump name should not be empty.";
+		
 
 		cv::imwrite(FLAGS_dumpName, result);
-	}
+	
 	return  1;
 }
-
-// 1.  edge detection ,sobel,canny,laplacian operator
 
 
 int device_query(void)
@@ -264,6 +261,38 @@ int blending(void)
 	return 1;
 }
 
+int scribble(void){
+//
+std::cout << "Hello " << std::endl;
+CHECK_GT(FLAGS_imageName.size(), 0) << " source image should not be empty..";
+CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
+//
+//	//// check for exist
+//	//if (!TK::tk_is_file_existed(FLAGS_outfolder.c_str()))
+//	//{
+//	//	TK::tk_make_file(FLAGS_outfolder.c_str());
+//	//}
+//
+//	//while (true){
+//
+//	//	cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
+//
+//	//	cv::imshow("", m);
+//
+//	//	char key = cv::waitKey(0);
+//
+//	//	
+//
+//	//	userAction[0];
+//
+//
+//
+//	//}
+//
+//
+//
+	return 0;
+}
 
 int test(void)
 {

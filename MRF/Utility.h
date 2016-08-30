@@ -142,14 +142,12 @@ typedef struct device_point
 
 
 	DECLARE_string(infolder);
+	DECLARE_string(outfolder);
 	DECLARE_string(gpu);
 	DECLARE_string(imageName);
 	DECLARE_bool(dumpImage);
 	DECLARE_string(dumpName);
-	DECLARE_bool(showEdge);
 	DECLARE_string(edgeSolver);
-	DECLARE_bool(showInitialImage);
-	DECLARE_bool(dumpInitialImage);
 	DECLARE_string(graphSolver);
 
 	typedef int(*RegisterFunction)(void);
