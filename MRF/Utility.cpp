@@ -411,6 +411,16 @@ namespace TK
 
 	}
 
+	template<>
+	std::string tk_toString(const char& t){
+		std::ostringstream oss;//创建一个流
+		oss.clear();
+
+		oss << t;//把值传递如流中
+
+		return oss.str();//获取转换后的字符转并将其写入result
+	}
+
 	const char* cublasGetErrorString(cublasStatus_t error) {
 		 switch (error) {
 		 case CUBLAS_STATUS_SUCCESS:

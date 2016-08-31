@@ -6,6 +6,7 @@
 
 RegisterFunMap fun_map;
 
+
 extern int edge_detection(void);
 doRegisteration(edge_detection);
 extern int device_query(void);
@@ -268,35 +269,36 @@ CHECK_GT(FLAGS_imageName.size(), 0) << " source image should not be empty..";
 CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
 //
 //	//// check for exist
-//	//if (!TK::tk_is_file_existed(FLAGS_outfolder.c_str()))
-//	//{
-//	//	TK::tk_make_file(FLAGS_outfolder.c_str());
-//	//}
+	if (!TK::tk_is_file_existed(FLAGS_outfolder.c_str()))
+	{
+		TK::tk_make_file(FLAGS_outfolder.c_str());
+	}
 //
-//	//while (true){
-//
-//	//	cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
-//
-//	//	cv::imshow("", m);
-//
-//	//	char key = cv::waitKey(0);
-//
-//	//	
-//
-//	//	userAction[0];
-//
-//
-//
-//	//}
-//
-//
-//
+	while (true){
+
+		cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
+
+		cv::imshow("", m);
+
+		char key = cv::waitKey(0);
+
+		getMouseActionCommand(TK::tk_toString(key))();
+		
+
+	
+
+
+	
+	}   
+
+
+
 	return 0;
 }
 
 int test(void)
 {
-
+	std::cout <<"just for test"<< std::endl;
 
 	return 1;
 }

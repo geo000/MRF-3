@@ -3,36 +3,84 @@
 
 #include"Utility.h"
 
-typedef int(*UserAction)(void);
-typedef UserAction MouseAction;
+#define  ERROR_HANDLER_NAME  ("liygcheng")
 
-typedef std::map<std::string, UserAction> key_user_action;
-typedef std::map<int, MouseAction> mouse_user_action;
+//
+typedef int(*KeyboardAction)(void);
+typedef std::map<std::string, KeyboardAction> RegisterKeyboardActionMap;
 
- key_user_action userAction;
- mouse_user_action mouseAction;
+extern RegisterKeyboardActionMap mouseActionMap;
+RegisterKeyboardActionMap mouseActionMap;
 
-#define RegisterKeyAction(key,fun)					\
-	namespace{										\
-		class _register_user_key_##fun{				\
-		public:	_register_user_key_##fun(){			\
-		mouseAction[key] = &(fun);					\
-							}						\
-					};								\
-	_register_user_key_##fun key_action_##fun; \
-}													\
+#define RegisterMouseAction(str,fun)	\
+		namespace {						\
+		class _Register_Mouse_Action_##fun{			\
+		public:	_Register_Mouse_Action_##fun()		\
+						{							\
+		mouseActionMap[#str] = &(fun);			\
+						}							\
+				};							\
+		_Register_Mouse_Action_##fun m_register_mouse_action_##fun;\
+				}							
 
-extern int quit(void);
-RegisterKeyAction(0, quit);
+static KeyboardAction  getMouseActionCommand(const std::string& name)
+{
+	if (mouseActionMap.count(name)){
+		return mouseActionMap[name];
+	}
+	else
+	{
+
+		LOG(INFO) << "Available Actions:";
+		for (RegisterFunMap::iterator it = mouseActionMap.begin(); it != mouseActionMap.end(); ++it)
+		{
+			if (ERROR_HANDLER_NAME != it->first)
+			LOG(INFO) << "\t" << it->first;
+		}
+		LOG(INFO) << "unknown actions :" << name;
+		return mouseActionMap[ERROR_HANDLER_NAME];
+
+	}
+
+}
+//
+
+//
+
+
+//
 
 
 
-int quit(void){
 
-	std::cout << "" << std::endl;
+
+
+
+/*********************************************************************************/
+
+extern int mouse_quit(void);
+RegisterMouseAction(q,mouse_quit);
+
+extern int error_handler(void);
+RegisterMouseAction(liygcheng, error_handler);
+
+
+
+int mouse_quit(void){
+
+	std::cout << "quit function" << std::endl;
 	exit(-1);
 	return 0;
 }
+
+
+int error_handler(void){
+	//nothing to do...
+	return 0;
+}
+
+
+
 
 #endif
 

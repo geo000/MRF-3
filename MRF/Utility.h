@@ -155,7 +155,7 @@ typedef struct device_point
 	extern RegisterFunMap fun_map;
 
 	#define doRegisteration(fun)	\
-		namespace{						\
+		namespace {						\
 		class _Register_##fun{			\
 		public:	_Register_##fun()		\
 						{							\
