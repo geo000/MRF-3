@@ -273,19 +273,36 @@ CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
 	{
 		TK::tk_make_file(FLAGS_outfolder.c_str());
 	}
-//
+
+	MouseData userData(FLAGS_imageName, FLAGS_outfolder);
+
+
+	// Create a window for display.  
+	cv::namedWindow("Input Image", CV_WINDOW_AUTOSIZE);
+	cv::namedWindow("Scribble Image", CV_WINDOW_AUTOSIZE);
+
+	cv::namedWindow("foreground mask", CV_WINDOW_AUTOSIZE);
+	cv::namedWindow("background mask", CV_WINDOW_AUTOSIZE);
+
+
+	// Show our image inside it.  
+	cv::imshow("Input Image", userData.m_source);
+	cv::imshow("Scribble Image", userData.m_scribble);
+	cv::setMouseCallback("Scribble Image", onMouse, (void*)&userData);
+
+	
+
 	while (true){
 
-		cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
-
-		cv::imshow("", m);
+	
 
 		char key = cv::waitKey(0);
 
-		getMouseActionCommand(TK::tk_toString(key))();
+		int flag = getMouseActionCommand(TK::tk_toString(key))(&userData);
 		
-
-	
+		if (flag == 0) break;
+		
+		
 
 
 	
