@@ -267,7 +267,7 @@ int scribble(void){
 std::cout << "Hello " << std::endl;
 CHECK_GT(FLAGS_imageName.size(), 0) << " source image should not be empty..";
 CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
-//
+
 //	//// check for exist
 	if (!TK::tk_is_file_existed(FLAGS_outfolder.c_str()))
 	{
@@ -288,7 +288,7 @@ CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
 	// Show our image inside it.  
 	cv::imshow("Input Image", userData.m_source);
 	cv::imshow("Scribble Image", userData.m_scribble);
-	cv::setMouseCallback("Scribble Image", onMouse, (void*)&userData);
+	cv::setMouseCallback("Scribble Image", onMouseScribble, (void*)&userData);
 
 	
 
@@ -300,7 +300,7 @@ CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
 
 		int flag = getMouseActionCommand(TK::tk_toString(key))(&userData);
 		
-		if (flag == 0) break;
+		if (flag == 0 || flag == -1) break;
 		
 		
 
@@ -315,7 +315,11 @@ CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
 
 int test(void)
 {
-	std::cout <<"just for test"<< std::endl;
+	//std::string name, ext;
+
+	//TK::tk_truncate_name("liygchengpng", name, ext);
+
+	//std::cout <<"just for test :"<<name<<"  "<<ext<< std::endl;
 
 	return 1;
 }

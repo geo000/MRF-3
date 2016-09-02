@@ -198,6 +198,8 @@ namespace CUDA
 
 namespace TK
 {
+	extern  void tk_truncate_name(const std::string& filename, std::string& path,std::string& name, std::string& ext);
+
 	extern  bool tk_is_file_existed(const char* filename);
 
 	extern  bool tk_make_file(const char* filename);

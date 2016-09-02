@@ -56,6 +56,42 @@ namespace CUDA
 
 namespace TK
 {
+	void tk_truncate_name(const std::string& filename,std::string& path, std::string& name, std::string& ext){
+
+		int it1 = filename.find_last_of(".");
+		int it2 = filename.find_last_of("/");
+		int it3 = filename.find_last_of("\\");
+
+		if (it1 == -1 ) {
+
+			LOG(INFO) <<" filename : "<<filename<<" can't be splitted."<< "\n";
+			return;
+		}
+		if (it2 != -1){
+
+			path.assign(filename.begin(),filename.begin()+it2);
+			name.assign(filename.begin() + it2, filename.begin() + it1);
+			ext.assign(filename.begin() + it1 + 1, filename.end());
+		}
+		else if (it3 != -1){
+
+			path.assign(filename.begin(), filename.begin() + it3);
+			name.assign(filename.begin() + it3, filename.begin() + it1);
+			ext.assign(filename.begin() + it1 + 1, filename.end());
+		}
+		else
+		{
+			path.assign("");
+			name.assign(filename.begin(), filename.begin() + it1);
+			ext.assign(filename.begin() + it1 + 1, filename.end());
+		}
+
+
+
+		//std::string newstr(filename.begin(), filename.begin()+it);
+		
+	}
+
 	bool tk_is_file_existed(const char* filename)
 	{
 		if (_access(filename, 0) != -1)

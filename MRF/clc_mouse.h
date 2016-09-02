@@ -5,6 +5,10 @@
 
 #define  ERROR_HANDLER_NAME  ("liygcheng")
 
+#define  GET_STRING_NAME(var,name) \
+	std::string var(#name);		\
+
+
 //
 typedef int(*KeyboardAction)(void*);
 typedef std::map<std::string, KeyboardAction> RegisterKeyboardActionMap;
@@ -82,10 +86,40 @@ typedef struct MouseData{
 		 if (!m_bgmask.empty()) m_bgmask.release();
 	  }
 
+	  //inline void setImageName(const std::string& imageName){
+
+		 // m_imageName.assign(imageName);
+
+		 // if (!m_source.empty()) m_source.release();
+		 // if (!m_scribble.empty()) m_scribble.release();
+		 // if (!m_fgmask.empty()) m_fgmask.release();
+		 // if (!m_bgmask.empty()) m_bgmask.release();
+
+		 // m_source = cv::imread(imageName, CV_LOAD_IMAGE_UNCHANGED);
+
+		 // if (!m_source.data)
+		 // {
+			//  LOG(ERROR) << "image read error,check for imageName:" << imageName;
+			//  LOG(ERROR) << "instantiation failure...";
+
+		 // }
+
+		 // m_scribble = m_source.clone();
+
+		 // m_fgmask.create(2, m_source.size, CV_8UC1);
+		 // m_fgmask = 0;
+		 // m_bgmask.create(2, m_source.size, CV_8UC1);
+		 // m_bgmask = 0;
+		 // lButtonDown = false;
+		 // rButtonDown = false;
+		 // scribbleRadius = 5;
+		 // 
+	  //}
+
 }MouseData;
 
 
-static void onMouse(int event, int x, int y, int flag, void* userData){
+static void onMouseScribble(int event, int x, int y, int flag, void* userData){
 
 	//LOG(INFO) << "Mouse Callback Function..";
 
@@ -137,6 +171,10 @@ static void onMouse(int event, int x, int y, int flag, void* userData){
 extern int mouse_quit(void* userData);
 RegisterMouseAction(q,mouse_quit);
 
+#define MOUSE_SAVE mouse_quit
+RegisterMouseAction(s, MOUSE_SAVE);
+
+
 extern int mouse_restart(void* userData);
 RegisterMouseAction(r, mouse_restart);
 
@@ -145,6 +183,9 @@ RegisterMouseAction(-, mouse_brush_radius_dec);
 
 extern int mouse_brush_radius_inc(void* userData);
 RegisterMouseAction(+, mouse_brush_radius_inc);
+
+//extern int mouse_new_source(void* userData);
+//RegisterMouseAction(n, mouse_new_source);
 
 extern int error_handler(void* userData);
 RegisterMouseAction(liygcheng, error_handler);
@@ -160,15 +201,25 @@ int mouse_quit(void* userData){
 		return 0;
 	}
 	//save background ,foreground ,and scribble image
-	bool flag  = cv::imwrite(m_data->m_outfolder + "/background_mask.png", m_data->m_bgmask);
-		 flag &= cv::imwrite(m_data->m_outfolder + "/foreground_mask.png", m_data->m_fgmask);
-		 flag &= cv::imwrite(m_data->m_outfolder + "/scribble.png", m_data->m_scribble);
-		 flag &= cv::imwrite(m_data->m_outfolder + "/source.png", m_data->m_source);
+
+	std::string folder(m_data->m_outfolder), path,name, ext;
+
+	TK::tk_truncate_name(m_data->m_imageName,path, name, ext);
+
+	folder.append("/").append(name);
+
+	TK::tk_make_file(folder.c_str());
+
+
+	bool flag = cv::imwrite(folder + "/background_mask.png", m_data->m_bgmask);
+		 flag &= cv::imwrite(folder + "/foreground_mask.png", m_data->m_fgmask);
+		 flag &= cv::imwrite(folder + "/scribble.png", m_data->m_scribble);
+		 flag &= cv::imwrite(folder + "/source.png", m_data->m_source);
 		 if (!flag){
 			 LOG(INFO) << "some errors occur when come to archive.";
 		 }
-	exit(-1);
-	return 1;
+	
+	return -1; 
 }
 int mouse_restart(void* userData){
 
@@ -208,7 +259,15 @@ int mouse_brush_radius_inc(void* userData){
 	m_data->scribbleRadius = std::min(m_data->scribbleRadius + 1, 20);
 	return 1;
 }
-
+//int mouse_new_source(void* userData){
+//
+//	//
+//	LOG(INFO) << "old result dump to folder..";
+//	mouse_quit(userData);
+//
+//
+//	return 1;
+//}
 
 
 
