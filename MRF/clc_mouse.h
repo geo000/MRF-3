@@ -51,6 +51,7 @@ static KeyboardAction  getMouseActionCommand(const std::string& name)
 
 
 typedef struct MouseData{
+	  cv::Point m_current, m_start;
 	  bool  lButtonDown ; 
 	  bool  rButtonDown ;
 	  int   scribbleRadius ;
@@ -76,7 +77,13 @@ typedef struct MouseData{
 		  m_bgmask = 0;
 		  lButtonDown = false;
 		  rButtonDown = false;
-		  scribbleRadius = 5;
+		  scribbleRadius = 3;
+
+		  m_current.x = 0;
+		  m_current.y = 0;
+		  m_start.x = 0;
+		  m_start.y = 0;
+
 
 	  }
 	  ~MouseData(){
@@ -161,6 +168,101 @@ static void onMouseScribble(int event, int x, int y, int flag, void* userData){
 }
 
 //some global var  for  mouse  action
+
+
+static void onMouseMatting(int event, int x,int y,int flag,void* userData){
+
+	MouseData* m_mouseData = static_cast<MouseData*>(userData);
+
+	if (m_mouseData == NULL){
+		std::cerr << "userData is empty.." << std::endl;
+		return;
+	}
+
+	if (event == CV_EVENT_LBUTTONDOWN) {
+		m_mouseData->lButtonDown = true;
+		m_mouseData->m_start.x = x;
+		m_mouseData->m_start.y = y; 
+		m_mouseData->m_current.x = x;
+		m_mouseData->m_current.y = y; 
+
+		//cv::imshow("Scribble Image", m_mouseData->m_scribble);
+		//cv::imshow("background mask", m_mouseData->m_bgmask);
+	}
+	else if (event == CV_EVENT_RBUTTONDOWN) { 
+		m_mouseData->rButtonDown = true; 
+		m_mouseData->m_start.x = x; 
+		m_mouseData->m_start.y = y; 
+		m_mouseData->m_current.x = x;
+		m_mouseData->m_current.y = y; 
+
+		//cv::imshow("Scribble Image", m_mouseData->m_scribble);
+		//cv::imshow("background mask", m_mouseData->m_bgmask);
+	}
+	else if (event == CV_EVENT_LBUTTONUP) {
+		m_mouseData->lButtonDown = false;
+		cv::Point tmp(x, y);
+		cv::line(m_mouseData->m_scribble, m_mouseData->m_start, tmp, cv::Scalar(0, 255, 0), 2, 8, 0);
+		cv::line(m_mouseData->m_bgmask, m_mouseData->m_start, tmp, 255, 2, 8, 0);
+		//cv::floodFill(m_mouseData->m_scribble, m_mouseData->m_bgmask, tmp, 255);
+
+		//FindContours(gray, storage, &contour, sizeof(CvContour), CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
+
+		cv::vector<cv::vector<cv::Point> > contours;
+		cv::vector<cv::Vec4i> hierarchy;
+		
+		cv::findContours(m_mouseData->m_bgmask, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
+
+		//cv::findContours(m_mouseData->m_bgmask, &m_contour, sizeof(CvContour), CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
+		for (int i = 0; i < contours.size();++i)
+		cv::drawContours(m_mouseData->m_bgmask, contours, i, cv::Scalar(255, 255, 255), CV_FILLED, 8, hierarchy, 0, cv::Point());
+		//cvDrawContours(gray, contour, CV_RGB(255, 255, 255), CV_RGB(255, 255, 255), -1, CV_FILLED, 8);
+		//cv::drawContours()
+		cv::imshow("Scribble Image", m_mouseData->m_scribble);
+		cv::imshow("background mask", m_mouseData->m_bgmask);
+	}
+	else if (event == CV_EVENT_RBUTTONUP) {
+		m_mouseData->rButtonDown = false; 
+		cv::Point tmp(x, y);
+		cv::rectangle(m_mouseData->m_scribble, m_mouseData->m_current, tmp, cv::Scalar(0, 255, 0), 2);
+		cv::rectangle(m_mouseData->m_bgmask, m_mouseData->m_current, tmp, 255, CV_FILLED);
+
+		cv::imshow("Scribble Image", m_mouseData->m_scribble);
+		cv::imshow("background mask", m_mouseData->m_bgmask);
+	}
+	else if (event == CV_EVENT_MOUSEMOVE){ // start to move 
+
+		if (m_mouseData->lButtonDown){  //Background 
+
+			cv::Point tmp(x, y);
+			cv::line(m_mouseData->m_scribble, m_mouseData->m_current, tmp, cv::Scalar(0, 255, 0), 2, 8, 0);
+			cv::line(m_mouseData->m_bgmask, m_mouseData->m_current, tmp, 255, 2, 8, 0);
+			m_mouseData->m_current.x = x;
+			m_mouseData->m_current.y = y;
+
+			cv::imshow("Scribble Image", m_mouseData->m_scribble);
+			cv::imshow("background mask", m_mouseData->m_bgmask);
+			
+		}
+		else if (m_mouseData->rButtonDown)//Foreground
+		{
+			cv::Point tmp(x, y);
+			cv::Mat   tmpMat = m_mouseData->m_scribble.clone();
+			cv::Mat   tmpMask = m_mouseData->m_bgmask.clone();
+
+			cv::rectangle(tmpMat, m_mouseData->m_start, tmp, cv::Scalar(0, 255, 0), 2);
+			cv::rectangle(tmpMask, m_mouseData->m_start, tmp, 255, CV_FILLED);
+
+			cv::imshow("Scribble Image", tmpMat);
+			cv::imshow("background mask", tmpMask);
+		}
+
+	}
+
+
+
+}
+
 
 
 //some global var  for  mouse  action

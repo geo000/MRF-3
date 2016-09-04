@@ -26,6 +26,8 @@ doRegisteration(scribble);
 extern int test(void);
 doRegisteration(test);
 
+
+
 // 1.  edge detection ,sobel,canny,laplacian operator
 int edge_detection(void)
 {
@@ -258,13 +260,50 @@ int extract_feature(void)
 
 int blending(void)
 {
+	std::cout << "Hello " << std::endl;
+	CHECK_GT(FLAGS_imageName.size(), 0) << " source image should not be empty..";
+	CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
+
+	//	//// check for exist
+	if (!TK::tk_is_file_existed(FLAGS_outfolder.c_str()))
+	{
+		TK::tk_make_file(FLAGS_outfolder.c_str());
+	}
+
+	MouseData userData(FLAGS_imageName, FLAGS_outfolder);
+
+
+	// Create a window for display.  
+	cv::namedWindow("Input Image", CV_WINDOW_AUTOSIZE);
+	cv::namedWindow("Scribble Image", CV_WINDOW_AUTOSIZE);
+	cv::namedWindow("background mask", CV_WINDOW_AUTOSIZE);
+
+	// Show our image inside it.  
+	cv::imshow("Input Image", userData.m_source);
+	cv::imshow("Scribble Image", userData.m_scribble);
+	cv::setMouseCallback("Scribble Image", onMouseMatting, (void*)&userData);
+
+	//
+	while (true){
+
+
+
+		char key = cv::waitKey(0);
+
+		int flag = getMouseActionCommand(TK::tk_toString(key))(&userData);
+
+		if (flag == 0 || flag == -1) break;
+
+
+	}
+	
 	printf("blending");
 	return 1;
 }
 
 int scribble(void){
 //
-std::cout << "Hello " << std::endl;
+//std::cout << "Hello " << std::endl;
 CHECK_GT(FLAGS_imageName.size(), 0) << " source image should not be empty..";
 CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
 
@@ -303,9 +342,6 @@ CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
 		if (flag == 0 || flag == -1) break;
 		
 		
-
-
-	
 	}   
 
 
