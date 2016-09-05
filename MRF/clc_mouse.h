@@ -5,9 +5,9 @@
 
 #define  ERROR_HANDLER_NAME  ("liygcheng")
 
-#define  GET_STRING_NAME(var,name) \
-	std::string var(#name);		\
+DECLARE_string(scribble_type);
 
+DEFINE_string(scribble_type,"line","scribble_type : line or area");
 
 //
 typedef int(*KeyboardAction)(void*);
@@ -286,8 +286,8 @@ RegisterMouseAction(-, mouse_brush_radius_dec);
 extern int mouse_brush_radius_inc(void* userData);
 RegisterMouseAction(+, mouse_brush_radius_inc);
 
-//extern int mouse_new_source(void* userData);
-//RegisterMouseAction(n, mouse_new_source);
+extern int mouse_new_source(void* userData);
+RegisterMouseAction(n, mouse_new_source);
 
 extern int error_handler(void* userData);
 RegisterMouseAction(liygcheng, error_handler);
@@ -361,15 +361,14 @@ int mouse_brush_radius_inc(void* userData){
 	m_data->scribbleRadius = std::min(m_data->scribbleRadius + 1, 20);
 	return 1;
 }
-//int mouse_new_source(void* userData){
-//
-//	//
-//	LOG(INFO) << "old result dump to folder..";
-//	mouse_quit(userData);
-//
-//
-//	return 1;
-//}
+int mouse_new_source(void* userData){
+
+	//
+	LOG(INFO) << "old result dump to folder..";
+	mouse_quit(userData);
+
+	return 2;
+}
 
 
 

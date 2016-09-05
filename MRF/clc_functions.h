@@ -260,42 +260,40 @@ int extract_feature(void)
 
 int blending(void)
 {
-	std::cout << "Hello " << std::endl;
-	CHECK_GT(FLAGS_imageName.size(), 0) << " source image should not be empty..";
-	CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
+	//std::cout << "Hello " << std::endl;
+	//CHECK_GT(FLAGS_imageName.size(), 0) << " source image should not be empty..";
+	//CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
 
-	//	//// check for exist
-	if (!TK::tk_is_file_existed(FLAGS_outfolder.c_str()))
-	{
-		TK::tk_make_file(FLAGS_outfolder.c_str());
-	}
+	////	//// check for exist
+	//if (!TK::tk_is_file_existed(FLAGS_outfolder.c_str()))
+	//{
+	//	TK::tk_make_file(FLAGS_outfolder.c_str());
+	//}
 
-	MouseData userData(FLAGS_imageName, FLAGS_outfolder);
+	//MouseData *userData =new MouseData(FLAGS_imageName, FLAGS_outfolder);
+	////MouseData* userDataPtr;
 
+	//// Create a window for display.  
+	//cv::namedWindow("Input Image", CV_WINDOW_AUTOSIZE);
+	//cv::namedWindow("Scribble Image", CV_WINDOW_AUTOSIZE);
+	//cv::namedWindow("background mask", CV_WINDOW_AUTOSIZE);
 
-	// Create a window for display.  
-	cv::namedWindow("Input Image", CV_WINDOW_AUTOSIZE);
-	cv::namedWindow("Scribble Image", CV_WINDOW_AUTOSIZE);
-	cv::namedWindow("background mask", CV_WINDOW_AUTOSIZE);
+	//// Show our image inside it.  
+	//cv::imshow("Input Image", userData->m_source);
+	//cv::imshow("Scribble Image", userData->m_scribble);
+	//cv::setMouseCallback("Scribble Image", onMouseMatting, (void*)userData);
 
-	// Show our image inside it.  
-	cv::imshow("Input Image", userData.m_source);
-	cv::imshow("Scribble Image", userData.m_scribble);
-	cv::setMouseCallback("Scribble Image", onMouseMatting, (void*)&userData);
+	////
+	//while (true){
 
-	//
-	while (true){
+	//	char key = cv::waitKey(0);
 
+	//	int flag = getMouseActionCommand(TK::tk_toString(key))(userData);
 
-
-		char key = cv::waitKey(0);
-
-		int flag = getMouseActionCommand(TK::tk_toString(key))(&userData);
-
-		if (flag == 0 || flag == -1) break;
+	//	if (flag == 0 || flag == -1) break;
 
 
-	}
+	//}
 	
 	printf("blending");
 	return 1;
@@ -313,31 +311,35 @@ CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
 		TK::tk_make_file(FLAGS_outfolder.c_str());
 	}
 
-	MouseData userData(FLAGS_imageName, FLAGS_outfolder);
+	MouseData* userData = new MouseData(FLAGS_imageName, FLAGS_outfolder);
 
 
 	// Create a window for display.  
 	cv::namedWindow("Input Image", CV_WINDOW_AUTOSIZE);
 	cv::namedWindow("Scribble Image", CV_WINDOW_AUTOSIZE);
-
-	cv::namedWindow("foreground mask", CV_WINDOW_AUTOSIZE);
 	cv::namedWindow("background mask", CV_WINDOW_AUTOSIZE);
 
 
+	if (FLAGS_scribble_type == "line")
+	cv::namedWindow("foreground mask", CV_WINDOW_AUTOSIZE);
+
+
 	// Show our image inside it.  
-	cv::imshow("Input Image", userData.m_source);
-	cv::imshow("Scribble Image", userData.m_scribble);
-	cv::setMouseCallback("Scribble Image", onMouseScribble, (void*)&userData);
+	cv::imshow("Input Image", userData->m_source);
+	cv::imshow("Scribble Image", userData->m_scribble);
+
+	if (FLAGS_scribble_type == "line")
+	cv::setMouseCallback("Scribble Image", onMouseScribble, (void*)userData);
+	else if (FLAGS_scribble_type=="area")
+	cv::setMouseCallback("Scribble Image", onMouseMatting, (void*)userData);
 
 	
 
 	while (true){
 
-	
-
 		char key = cv::waitKey(0);
 
-		int flag = getMouseActionCommand(TK::tk_toString(key))(&userData);
+		int flag = getMouseActionCommand(TK::tk_toString(key))(userData);
 		
 		if (flag == 0 || flag == -1) break;
 		
