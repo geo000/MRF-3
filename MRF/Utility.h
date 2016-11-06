@@ -59,7 +59,7 @@ the aforementioned paper in any resulting publication.
 #include<glog\logging.h>
 
 //matlab header
-
+#include<mat.h>
 
 /***********************************  cuda macros **************************************/
 #define CUDA_CHECK(condition) \

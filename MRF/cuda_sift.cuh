@@ -2,6 +2,7 @@
 #define _CUDA_SIFT_CUH_
 
 #include"cuda_utility.cuh"
+//matlab header
 
 //********************************Part 1  some constant var************************************* // cudaSiftD.h
 #define NUM_SCALES      5
@@ -130,7 +131,7 @@ extern double FindHomography(SiftData &data, float *homography, int *numMatches,
 
 //*********************************** Part 5 some IO
 
-extern  void tk_write_Sift_Mat(SiftData* m_sift, const std::string& dumpname);
+extern  void tk_write_Sift_Mat(const SiftData* m_sift, const std::string& dumpname);
 
 
 

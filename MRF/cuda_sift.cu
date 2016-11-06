@@ -897,7 +897,7 @@ double FindPointsMulti(CudaImage *sources, SiftData &siftData, float thresh, flo
 }
 
 //**********************some IO ********************************
-void tk_write_Sift_Mat(SiftData* m_sift, const std::string& dumpname){
+void tk_write_Sift_Mat(const SiftData* m_sift, const std::string& folder){
 	
 	//
 	if (m_sift == NULL && m_sift->numPts && m_sift->h_data) {
@@ -906,7 +906,80 @@ void tk_write_Sift_Mat(SiftData* m_sift, const std::string& dumpname){
 
 	//
 
+	MATFile *pfeatfile = NULL;
+	MATFile *pdescfile = NULL;
+	mxArray *pMxFeat = NULL;
+	mxArray *pMxDesc = NULL;
 
+	int status;
+
+	pfeatfile = matOpen("F.mat", "w7.3");
+	if (pfeatfile == NULL) {
+		printf("Error creating file %s\n");
+		return;
+	}
+
+	pdescfile = matOpen("D.mat", "w7.3");
+	if (pdescfile == NULL) {
+		printf("Error creating file %s\n");
+		return;
+	}
+
+	SiftPoint *h_data = m_sift->h_data;
+
+
+	double *mxFeat = new double[4 * m_sift->numPts];
+	
+	double *mxDesc = new double[128  * m_sift->numPts];
+
+	for (int i = 0; i < m_sift->numPts; ++i) {
+
+		mxFeat[4 * i]	  = (double)(h_data[i].xpos);
+		mxFeat[4 * i + 1] = (double)(h_data[i].ypos);
+		mxFeat[4 * i + 2] = (double)(h_data[i].scale);
+		mxFeat[4 * i + 3] = (double)(h_data[i].orientation);
+
+		float *desc = (float*)&h_data[i].data;
+		int offset = 128 * i;
+
+		for (int j = 0; j<8; ++j) {
+			for (int k = 0; k < 16; ++k)
+				mxDesc[offset + j + 8 * k] = (double)(desc[j + 8 * k]);
+		}
+
+
+	}
+	pMxFeat = mxCreateDoubleMatrix(4, m_sift->numPts, mxREAL);
+	pMxDesc = mxCreateDoubleMatrix(128, m_sift->numPts, mxREAL);
+
+	if (pMxFeat == NULL || pMxDesc == NULL){
+			printf("%s : Out of memory on line %d\n", __FILE__, __LINE__);
+			printf("Unable to create mxArray.\n");
+			return;	
+	}
+	
+	//Error using mxSetData , memcpy instead.
+	//mxSetData(pMxArray, mxFeat);
+	memcpy((void *)(mxGetPr(pMxFeat)), (void *)mxFeat, 4 * m_sift->numPts*sizeof(double));
+	memcpy((void *)(mxGetPr(pMxDesc)), (void *)mxDesc, 128 * m_sift->numPts*sizeof(double));
+
+	status = matPutVariable(pfeatfile, "F", pMxFeat);
+	if (status != 0) {
+		printf("%s :  Error using matPutVariable on line %d\n", __FILE__, __LINE__);
+		return;
+	}
+	status = matPutVariable(pdescfile, "D", pMxDesc);
+
+	if (status != 0) {
+		printf("%s :  Error using matPutVariable on line %d\n", __FILE__, __LINE__);
+		return;
+	}
+	/* clean up */
+	mxDestroyArray(pMxFeat);
+	mxDestroyArray(pMxDesc);
+
+	matClose(pfeatfile);
+	matClose(pdescfile);
 
 
 }

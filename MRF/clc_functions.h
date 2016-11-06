@@ -394,6 +394,8 @@ int computeSift(void){
 
 	printf("Number of available points: %d\n", m_siftData.numPts);
 
+	tk_write_Sift_Mat(&m_siftData, "");
+
 	FreeSiftData(m_siftData);
 
 	//PrintSiftData(m_siftData);
