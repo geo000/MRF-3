@@ -3,6 +3,8 @@
 #include"Utility.h"
 
 #include"clc_mouse.h"
+#define VERBOSE
+#include"cuda_sift.cuh"
 
 RegisterFunMap fun_map;
 
@@ -25,6 +27,9 @@ doRegisteration(scribble);
 
 extern int test(void);
 doRegisteration(test);
+
+extern int computeSift(void);
+doRegisteration(computeSift);
 
 
 
@@ -260,40 +265,25 @@ int extract_feature(void)
 
 int blending(void)
 {
-	//std::cout << "Hello " << std::endl;
-	//CHECK_GT(FLAGS_imageName.size(), 0) << " source image should not be empty..";
-	//CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
+	CHECK_GT(FLAGS_infolder.size(),0)<<"input folder should not be empty..";
+
+	if (!TK::tk_is_file_existed(FLAGS_infolder.c_str())) {
+
+		std::cerr << "infolder does not exist." << std::endl;
+		return -1;
+	}
+	  
+	CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
 
 	////	//// check for exist
-	//if (!TK::tk_is_file_existed(FLAGS_outfolder.c_str()))
-	//{
-	//	TK::tk_make_file(FLAGS_outfolder.c_str());
-	//}
-
-	//MouseData *userData =new MouseData(FLAGS_imageName, FLAGS_outfolder);
-	////MouseData* userDataPtr;
-
-	//// Create a window for display.  
-	//cv::namedWindow("Input Image", CV_WINDOW_AUTOSIZE);
-	//cv::namedWindow("Scribble Image", CV_WINDOW_AUTOSIZE);
-	//cv::namedWindow("background mask", CV_WINDOW_AUTOSIZE);
-
-	//// Show our image inside it.  
-	//cv::imshow("Input Image", userData->m_source);
-	//cv::imshow("Scribble Image", userData->m_scribble);
-	//cv::setMouseCallback("Scribble Image", onMouseMatting, (void*)userData);
-
-	////
-	//while (true){
-
-	//	char key = cv::waitKey(0);
-
-	//	int flag = getMouseActionCommand(TK::tk_toString(key))(userData);
-
-	//	if (flag == 0 || flag == -1) break;
+	if (!TK::tk_is_file_existed(FLAGS_outfolder.c_str()))
+	{
+		TK::tk_make_file(FLAGS_outfolder.c_str());
+	}
 
 
-	//}
+
+
 	
 	printf("blending");
 	return 1;
@@ -302,8 +292,8 @@ int blending(void)
 int scribble(void){
 //
 //std::cout << "Hello " << std::endl;
-CHECK_GT(FLAGS_imageName.size(), 0) << " source image should not be empty..";
-CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
+CHECK_GT(FLAGS_imageName.size(), 0) << " -imageName should not be empty..";
+CHECK_GT(FLAGS_outfolder.size(), 0) << " -outfolder folder  should not be empty..";
 
 //	//// check for exist
 	if (!TK::tk_is_file_existed(FLAGS_outfolder.c_str()))
@@ -360,4 +350,54 @@ int test(void)
 	//std::cout <<"just for test :"<<name<<"  "<<ext<< std::endl;
 
 	return 1;
+}
+
+int computeSift(void){
+
+	CHECK_GT(FLAGS_imageName.size(), 0) << " image to be detected should not be empty..";
+	//CHECK_GT(FLAGS_dumpName.size(), 0) << "dump name should not be empty.";
+
+	cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
+
+	m.convertTo(m, CV_32FC1);
+
+	if (!m.data)
+	{
+		std::cout << "read image error,aborting.." << std::endl;
+		return -1;
+	}
+	std::string pgmfile,pgmpath,pgmname,ext;
+	
+	TK::tk_truncate_name(FLAGS_imageName, pgmpath, pgmname,ext);
+
+	unsigned int w = m.cols;
+	unsigned int h = m.rows;
+
+	//cv::imshow("image " ,m);
+	//cv::waitKey(0);
+
+	std::cout << "Initializing data..." << std::endl;
+	InitCuda(0);
+
+	CudaImage m_cudaImage;
+
+	m_cudaImage.Allocate(w, h, iAlignUp(w, 128), false, NULL, (float*)m.data);
+
+	m_cudaImage.Download();
+
+	SiftData m_siftData;
+
+	float thresh = 5.0f;
+
+	InitSiftData(m_siftData, 4096, true, true);
+	ExtractSift(m_siftData, m_cudaImage, 5, 0.0f, thresh, 0.0f);
+
+	printf("Number of available points: %d\n", m_siftData.numPts);
+
+	FreeSiftData(m_siftData);
+
+	//PrintSiftData(m_siftData);
+
+	return 0;
+
 }

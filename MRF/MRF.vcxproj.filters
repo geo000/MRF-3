@@ -45,6 +45,9 @@
     <ClInclude Include="clc_mouse.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="cuda_sift.cuh">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -71,6 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="cuda_utility.cu">
+      <Filter>源文件</Filter>
+    </CudaCompile>
+    <CudaCompile Include="cuda_sift.cu">
       <Filter>源文件</Filter>
     </CudaCompile>
   </ItemGroup>

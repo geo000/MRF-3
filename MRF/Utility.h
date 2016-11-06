@@ -39,6 +39,7 @@ the aforementioned paper in any resulting publication.
 #include<opencv2\opencv.hpp>
 #include<sstream>
 #include<ctime>
+#include <cstdio>
 #include<assert.h>
 #include<direct.h>
 
@@ -53,9 +54,12 @@ the aforementioned paper in any resulting publication.
 
 //cuda header 
 
-//
+//google 
 #include<gflags\gflags.h>
 #include<glog\logging.h>
+
+//matlab header
+
 
 /***********************************  cuda macros **************************************/
 #define CUDA_CHECK(condition) \
@@ -241,6 +245,9 @@ namespace TK
 	extern const char* curandGetErrorString(curandStatus_t error);
 
 	extern void tk_get_mat_array(const std::string & filename, MatArray& output);
+
+
+	
 
 
 }

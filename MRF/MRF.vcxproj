@@ -158,6 +158,7 @@
     <ClInclude Include="block.h" />
     <ClInclude Include="clc_functions.h" />
     <ClInclude Include="clc_mouse.h" />
+    <ClInclude Include="cuda_sift.cuh" />
     <ClInclude Include="cuda_utility.cuh" />
     <ClInclude Include="energy.h" />
     <ClInclude Include="GCoptimization.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <CudaCompile Include="cuda_sift.cu" />
     <CudaCompile Include="cuda_utility.cu">
       <TargetMachinePlatform Condition="'$(Configuration)|$(Platform)'=='Release|x64'">64</TargetMachinePlatform>
     </CudaCompile>

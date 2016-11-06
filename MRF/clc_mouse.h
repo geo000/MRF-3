@@ -48,7 +48,7 @@ static KeyboardAction  getMouseActionCommand(const std::string& name)
 }
 
 //Mouse CallBack Fucntion
-
+    
 
 typedef struct MouseData{
 	  cv::Point m_current, m_start;
@@ -369,9 +369,6 @@ int mouse_new_source(void* userData){
 
 	return 2;
 }
-
-
-
 
 int error_handler(void* userData){
 	MouseData* m_data = static_cast<MouseData*>(userData);
