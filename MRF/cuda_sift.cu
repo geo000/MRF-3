@@ -934,7 +934,7 @@ void tk_write_Sift_Mat(const SiftData* m_sift, const std::string& folder){
 
 	for (int i = 0; i < m_sift->numPts; ++i) {
 
-		mxFeat[4 * i]	  = (double)(h_data[i].xpos);
+		mxFeat[4 * i] = (double)(h_data[i].xpos);
 		mxFeat[4 * i + 1] = (double)(h_data[i].ypos);
 		mxFeat[4 * i + 2] = (double)(h_data[i].scale);
 		mxFeat[4 * i + 3] = (double)(h_data[i].orientation);
