@@ -36,12 +36,18 @@ the aforementioned paper in any resulting publication.
 #include<io.h>
 #include<iostream>
 #include<fstream>
-#include<opencv2\opencv.hpp>
+
 #include<sstream>
 #include<ctime>
 #include <cstdio>
 #include<assert.h>
 #include<direct.h>
+
+
+//opencv2
+//#include<opencv2\contrib\contrib.hpp>
+
+#include<opencv2\opencv.hpp>
 
 
 //cuda header

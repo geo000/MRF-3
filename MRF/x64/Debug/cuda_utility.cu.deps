@@ -463,6 +463,12 @@ C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\io.h
 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\crtdefs.h
 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\iostream
 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\fstream
+C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\sstream
+C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\ctime
+C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\assert.h
+C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\crtdefs.h
+C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\direct.h
+C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\crtdefs.h
 C:/OpenCV/include\opencv2\opencv.hpp
 C:/OpenCV/include\opencv2/core/core_c.h
 C:/OpenCV/include\opencv2/core/types_c.h
@@ -474,7 +480,6 @@ C:/OpenCV/include\opencv2/core/version.hpp
 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\algorithm
 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\complex
 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\ccomplex
-C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\sstream
 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xcomplex
 C:/OpenCV/include\opencv2/core/operations.hpp
 C:/OpenCV/include\opencv2/core/mat.hpp
@@ -502,11 +507,6 @@ C:/OpenCV/include\opencv2/contrib/retina.hpp
 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\valarray
 C:/OpenCV/include\opencv2/contrib/openfabmap.hpp
 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\set
-C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\ctime
-C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\assert.h
-C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\crtdefs.h
-C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\direct.h
-C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\crtdefs.h
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0/include\cublas_v2.h
 c:\program files\nvidia gpu computing toolkit\cuda\v7.0\include\cublas_api.h
 c:\program files\nvidia gpu computing toolkit\cuda\v7.0\include\driver_types.h

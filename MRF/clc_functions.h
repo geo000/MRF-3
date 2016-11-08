@@ -31,6 +31,8 @@ doRegisteration(test);
 extern int computeSift(void);
 doRegisteration(computeSift);
 
+extern int jpg2pgm(void);
+doRegisteration(jpg2pgm);
 
 
 // 1.  edge detection ,sobel,canny,laplacian operator
@@ -354,52 +356,159 @@ int test(void)
 
 int computeSift(void){
 
-	CHECK_GT(FLAGS_imageName.size(), 0) << " image to be detected should not be empty..";
-	//CHECK_GT(FLAGS_dumpName.size(), 0) << "dump name should not be empty.";
+//#pragma omp parallel for
 
-	cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
+	CHECK_GT(FLAGS_infolder.size(), 0) << " image to be detected should not be empty..";
+	CHECK_GT(FLAGS_outfolder.size(), 0) << " image to be detected should not be empty..";
 
-	m.convertTo(m, CV_32FC1);
+	if (!TK::tk_is_file_existed(FLAGS_infolder.c_str())) {
 
-	if (!m.data)
-	{
-		std::cout << "read image error,aborting.." << std::endl;
+		std::cerr << "infolder does not exist." << std::endl;
 		return -1;
 	}
-	std::string pgmfile,pgmpath,pgmname,ext;
-	
-	TK::tk_truncate_name(FLAGS_imageName, pgmpath, pgmname,ext);
 
-	unsigned int w = m.cols;
-	unsigned int h = m.rows;
+	CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
 
-	//cv::imshow("image " ,m);
-	//cv::waitKey(0);
+	////	//// check for exist
+	if (!TK::tk_is_file_existed(FLAGS_outfolder.c_str()))
+	{
+		TK::tk_make_file(FLAGS_outfolder.c_str());
+	}
+
+	cv::Directory pgmroot;
+
+	std::vector<std::string> filenames = pgmroot.GetListFiles(FLAGS_infolder, "*.pgm", false);
 
 	std::cout << "Initializing data..." << std::endl;
 	InitCuda(0);
 
-	CudaImage m_cudaImage;
+	for (int i = 0; i < filenames.size(); ++i){
 
-	m_cudaImage.Allocate(w, h, iAlignUp(w, 128), false, NULL, (float*)m.data);
+		std::string pgmname = FLAGS_infolder + filenames[i];
+		std::size_t pos = filenames[i].find("pgm");
+		std::string matname = FLAGS_outfolder + filenames[i].substr(0, pos) + "mat";
+		cv::Mat m = cv::imread(pgmname,0);
+		m.convertTo(m, CV_32FC1);
+		if (!m.data)
+		{
+			std::cout << "read image error,aborting.." << std::endl;
+			continue;
+		}
+		//std::cout << "input file :------------> " << pgmname << std::endl;
+		//std::cout << "output file :------------> " << matname << std::endl;
 
-	m_cudaImage.Download();
 
-	SiftData m_siftData;
+		unsigned int w = m.cols;
+		unsigned int h = m.rows;
 
-	float thresh = 5.0f;
+		CudaImage m_cudaImage;
 
-	InitSiftData(m_siftData, 4096, true, true);
-	ExtractSift(m_siftData, m_cudaImage, 5, 0.0f, thresh, 0.0f);
+		m_cudaImage.Allocate(w, h, iAlignUp(w, 128), false, NULL, (float*)m.data);
 
-	printf("Number of available points: %d\n", m_siftData.numPts);
+		m_cudaImage.Download();
 
-	tk_write_Sift_Mat(&m_siftData, "");
+		SiftData m_siftData;
 
-	FreeSiftData(m_siftData);
+		float thresh = 5.0f;
+
+		InitSiftData(m_siftData, 4096, true, true);
+
+		ExtractSift(m_siftData, m_cudaImage, 5, 0.0f, thresh, 0.0f);
+
+		printf("Number of available points: %d\n", m_siftData.numPts);
+
+		if (m_siftData.numPts != 0){
+			tk_write_Sift_Mat(&m_siftData, matname);
+			FreeSiftData(m_siftData);
+		}
+	}
+
+
+	//CHECK_GT(FLAGS_imageName.size(), 0) << " image to be detected should not be empty..";
+	//CHECK_GT(FLAGS_dumpName.size(), 0) << "dump name should not be empty.";
+
+	//cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
+
+	//m.convertTo(m, CV_32FC1);
+
+	//if (!m.data)
+	//{
+	//	std::cout << "read image error,aborting.." << std::endl;
+	//	return -1;
+	//}
+	//std::string pgmfile,pgmpath,pgmname,ext;
+	//
+	//TK::tk_truncate_name(FLAGS_imageName, pgmpath, pgmname,ext);
+
+	//unsigned int w = m.cols;
+	//unsigned int h = m.rows;
+
+	////cv::imshow("image " ,m);
+	////cv::waitKey(0);
+
+	////std::cout << "Initializing data..." << std::endl;
+	////InitCuda(0);
+
+	//CudaImage m_cudaImage;
+
+	//m_cudaImage.Allocate(w, h, iAlignUp(w, 128), false, NULL, (float*)m.data);
+
+	//m_cudaImage.Download();
+
+	//SiftData m_siftData;
+
+	//float thresh = 5.0f;
+
+	//InitSiftData(m_siftData, 4096, true, true);
+	//ExtractSift(m_siftData, m_cudaImage, 5, 0.0f, thresh, 0.0f);
+
+	//printf("Number of available points: %d\n", m_siftData.numPts);
+
+	//tk_write_Sift_Mat(&m_siftData, "");
+
+	//FreeSiftData(m_siftData);
 
 	//PrintSiftData(m_siftData);
 
 	return 0;
+
+}
+
+ int jpg2pgm(void){
+
+	 CHECK_GT(FLAGS_infolder.size(), 0) << "input folder should not be empty..";
+	 CHECK_GT(FLAGS_outfolder.size(), 0) << " -outfolder folder  should not be empty..";
+	 if (!TK::tk_is_file_existed(FLAGS_infolder.c_str())) {
+
+		 std::cerr << "infolder does not exist." << std::endl;
+		 return -1;
+	 }
+
+	 CHECK_GT(FLAGS_outfolder.size(), 0) << " dump folder  should not be empty..";
+
+	 ////	//// check for exist
+	 if (!TK::tk_is_file_existed(FLAGS_outfolder.c_str()))
+	 {
+		 TK::tk_make_file(FLAGS_outfolder.c_str());
+	 }
+
+	 cv::Directory jpgroot;
+
+	 std::vector<std::string> filenames = jpgroot.GetListFiles(FLAGS_infolder, "*.jpg",false);
+
+
+	 for each (std::string filename in filenames)
+	 {
+		 std::string jpgname = FLAGS_infolder + filename;
+		 std::size_t pos = filename.find("jpg");
+		 std::string pgmname = FLAGS_outfolder + filename.substr(0, pos) + "pgm";
+		 cv::Mat im =  cv::imread(jpgname);
+
+		 cv::imwrite(pgmname, im);
+	 }
+
+
+
+
 
 }

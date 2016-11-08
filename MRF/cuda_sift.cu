@@ -897,7 +897,7 @@ double FindPointsMulti(CudaImage *sources, SiftData &siftData, float thresh, flo
 }
 
 //**********************some IO ********************************
-void tk_write_Sift_Mat(const SiftData* m_sift, const std::string& folder){
+void tk_write_Sift_Mat(const SiftData* m_sift, const std::string& dumpname){
 	
 	//
 	if (m_sift == NULL && m_sift->numPts && m_sift->h_data) {
@@ -907,23 +907,23 @@ void tk_write_Sift_Mat(const SiftData* m_sift, const std::string& folder){
 	//
 
 	MATFile *pfeatfile = NULL;
-	MATFile *pdescfile = NULL;
+	//MATFile *pdescfile = NULL;
 	mxArray *pMxFeat = NULL;
 	mxArray *pMxDesc = NULL;
 
 	int status;
 
-	pfeatfile = matOpen("F.mat", "w7.3");
+	pfeatfile = matOpen(dumpname.c_str(), "w7.3");
 	if (pfeatfile == NULL) {
 		printf("Error creating file %s\n");
 		return;
 	}
 
-	pdescfile = matOpen("D.mat", "w7.3");
-	if (pdescfile == NULL) {
-		printf("Error creating file %s\n");
-		return;
-	}
+	//pdescfile = matOpen("D.mat", "w7.3");
+	//if (pdescfile == NULL) {
+	//	printf("Error creating file %s\n");
+	//	return;
+	//}
 
 	SiftPoint *h_data = m_sift->h_data;
 
@@ -968,7 +968,7 @@ void tk_write_Sift_Mat(const SiftData* m_sift, const std::string& folder){
 		printf("%s :  Error using matPutVariable on line %d\n", __FILE__, __LINE__);
 		return;
 	}
-	status = matPutVariable(pdescfile, "D", pMxDesc);
+	status = matPutVariable(pfeatfile, "D", pMxDesc);
 
 	if (status != 0) {
 		printf("%s :  Error using matPutVariable on line %d\n", __FILE__, __LINE__);
@@ -979,7 +979,12 @@ void tk_write_Sift_Mat(const SiftData* m_sift, const std::string& folder){
 	mxDestroyArray(pMxDesc);
 
 	matClose(pfeatfile);
-	matClose(pdescfile);
+	//matClose(pdescfile);
+
+	//if (h_data != NULL) delete h_data;
+	if (mxFeat != NULL) delete mxFeat;
+	if (mxDesc != NULL) delete mxDesc;
+
 
 
 }

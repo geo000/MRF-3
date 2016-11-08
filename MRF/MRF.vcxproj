@@ -106,12 +106,13 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions);_SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>./include;$(OPENCV)/include;$(BOOST_1_56_0);$(CUDA_PATH_V7_0)/include;$(MATLAB_PATH)/extern/include;$(MATLAB_PATH)/extern/include/win64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OPENCV)/x64/vc12/lib;./lib;./lib/glog/debug;$(CUDA_PATH_V7_0)\lib\$(PlatformName);$(BOOST_1_56_0)/lib64-msvc-12.0;%(AdditionalLibraryDirectories);$(MATLAB_PATH)/extern/lib/win64/microsoft</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_core249d.lib;opencv_highgui249d.lib;opencv_imgproc249d.lib;gflagsd.lib;libglog.lib;libglog_static.lib;%(AdditionalDependencies);shlwapi.lib;cudart.lib;cuda.lib;nppi.lib;cufft.lib;cublas.lib;curand.lib;libmat.lib;libmx.lib;libmex.lib;libeng.lib</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core249d.lib;opencv_highgui249d.lib;opencv_imgproc249d.lib;opencv_contrib249d.lib;gflagsd.lib;libglog.lib;libglog_static.lib;%(AdditionalDependencies);shlwapi.lib;cudart.lib;cuda.lib;nppi.lib;cufft.lib;cublas.lib;curand.lib;libmat.lib;libmx.lib;libmex.lib;libeng.lib</AdditionalDependencies>
     </Link>
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
@@ -151,6 +152,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions);_SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>./include;$(OPENCV)/include;$(BOOST_1_56_0);$(CUDA_PATH_V7_0)/include;$(MATLAB_PATH)/extern/include;$(MATLAB_PATH)/extern/include/win64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -158,7 +160,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(OPENCV)/x64/vc12/lib;./lib;./lib/glog/release;$(CUDA_PATH_V7_0)/lib/$(PlatformName);$(BOOST_1_56_0)/lib64-msvc-12.0;%(AdditionalLibraryDirectories);$((MATLAB_PATH)/extern/lib/win64/microsoft/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_core249.lib;opencv_highgui249.lib;opencv_imgproc249.lib;gflags.lib;libglog.lib;libglog_static.lib;%(AdditionalDependencies);shlwapi.lib;cudart.lib;cuda.lib;nppi.lib;cufft.lib;cublas.lib;curand.lib;libmat.lib;libmx.lib;libmex.lib;libeng.lib</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core249.lib;opencv_highgui249.lib;opencv_imgproc249.lib;opencv_contrib249.lib;gflags.lib;libglog.lib;libglog_static.lib;%(AdditionalDependencies);shlwapi.lib;cudart.lib;cuda.lib;nppi.lib;cufft.lib;cublas.lib;curand.lib;libmat.lib;libmx.lib;libmex.lib;libeng.lib</AdditionalDependencies>
     </Link>
     <CudaCompile>
       <Include>%(Include)</Include>
