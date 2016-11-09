@@ -6,6 +6,8 @@
  cudaEvent_t start_timer;
  cudaEvent_t end_timer;
 
+#define MANAGEDMEM
+
 //extern texture<ushort4, cudaTextureType3D, cudaReadModeElementType> device_textures3D;
 
 #define CREATE_CUDA_TIMER						\

@@ -18,6 +18,13 @@
 extern cudaEvent_t start_timer;
 extern cudaEvent_t end_timer;
 
+#ifndef MANAGEDMEM
+//#define MANAGEDMEM
+#endif
+
+#ifndef  VERBOSE
+//#define VERBOSE
+#endif
 
 //extern  texture<ushort4, cudaTextureType1D, cudaReadModeElementType> device_textures[2];
 

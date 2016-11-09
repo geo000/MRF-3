@@ -3,7 +3,7 @@
 #include"Utility.h"
 
 #include"clc_mouse.h"
-#define VERBOSE
+
 #include"cuda_sift.cuh"
 
 RegisterFunMap fun_map;
@@ -345,11 +345,68 @@ CHECK_GT(FLAGS_outfolder.size(), 0) << " -outfolder folder  should not be empty.
 
 int test(void)
 {
-	//std::string name, ext;
+	//test  for match
+	if (FLAGS_imageName.size() && FLAGS_dumpName.size())
+	{
 
-	//TK::tk_truncate_name("liygchengpng", name, ext);
+		cv::Mat m1 = cv::imread(FLAGS_dumpName, 0);
+		cv::Mat m2 = cv::imread(FLAGS_imageName, 0);
 
-	//std::cout <<"just for test :"<<name<<"  "<<ext<< std::endl;
+		m1.convertTo(m1, CV_32FC1);
+		m2.convertTo(m2, CV_32FC1);
+
+		//if (!m1.data || !m2.data)
+		//{
+		//	std::cout << "read image error,aborting.." << std::endl;
+		//	continue;
+		//}
+
+		unsigned int w1 = m1.cols;
+		unsigned int h1 = m1.rows;
+
+		CudaImage m1_cudaImage;
+
+		m1_cudaImage.Allocate(w1, h1, iAlignUp(w1, 128), false, NULL, (float*)m1.data);
+
+		m1_cudaImage.Download();
+
+
+		unsigned int w2 = m2.cols;
+		unsigned int h2 = m2.rows;
+
+		CudaImage m2_cudaImage;
+		m2_cudaImage.Allocate(w2, h2, iAlignUp(w2, 128), false, NULL, (float*)m2.data);
+
+		m2_cudaImage.Download();
+
+
+
+		SiftData m1_siftData, m2_siftData;
+
+		float thresh = 5.0f;
+
+		InitSiftData(m1_siftData, 4096, true, true);
+		InitSiftData(m2_siftData, 4096, true, true);
+
+
+		ExtractSift(m1_siftData, m1_cudaImage, 5, 0.0f, thresh, 0.0f);
+		ExtractSift(m2_siftData, m2_cudaImage, 5, 0.0f, thresh, 0.0f);
+
+
+		MatchSiftData(m1_siftData, m2_siftData);
+
+		//tk_write_Sift_Mat(&m1_siftData, "C:/Liygcheng/Research/TimeLapse/matlab/SFM/1.mat");
+		//tk_write_Sift_Mat(&m2_siftData, "C:/Liygcheng/Research/TimeLapse/matlab/SFM/2.mat");
+
+
+	
+
+		printf("siftpoint1: Num match = %d\n", m1_siftData.h_data->match);
+		printf("siftpoint2: Num match = %d\n", m2_siftData.h_data->match);
+		FreeSiftData(m1_siftData);
+		FreeSiftData(m2_siftData);
+
+	}
 
 	return 1;
 }
@@ -381,6 +438,8 @@ int computeSift(void){
 
 	std::cout << "Initializing data..." << std::endl;
 	InitCuda(0);
+
+	TimerGPU timer(0);
 
 	for (int i = 0; i < filenames.size(); ++i){
 
@@ -415,60 +474,19 @@ int computeSift(void){
 
 		ExtractSift(m_siftData, m_cudaImage, 5, 0.0f, thresh, 0.0f);
 
-		printf("Number of available points: %d\n", m_siftData.numPts);
+		//printf("Number of available points: %d\n", m_siftData.numPts);
 
 		if (m_siftData.numPts != 0){
 			tk_write_Sift_Mat(&m_siftData, matname);
 			FreeSiftData(m_siftData);
 		}
+
 	}
 
+	double totTime = timer.read();
+	printf("Total time incl memory =      %.2f ms\n", totTime);
 
-	//CHECK_GT(FLAGS_imageName.size(), 0) << " image to be detected should not be empty..";
-	//CHECK_GT(FLAGS_dumpName.size(), 0) << "dump name should not be empty.";
-
-	//cv::Mat m = cv::imread(FLAGS_imageName, CV_LOAD_IMAGE_UNCHANGED);
-
-	//m.convertTo(m, CV_32FC1);
-
-	//if (!m.data)
-	//{
-	//	std::cout << "read image error,aborting.." << std::endl;
-	//	return -1;
-	//}
-	//std::string pgmfile,pgmpath,pgmname,ext;
-	//
-	//TK::tk_truncate_name(FLAGS_imageName, pgmpath, pgmname,ext);
-
-	//unsigned int w = m.cols;
-	//unsigned int h = m.rows;
-
-	////cv::imshow("image " ,m);
-	////cv::waitKey(0);
-
-	////std::cout << "Initializing data..." << std::endl;
-	////InitCuda(0);
-
-	//CudaImage m_cudaImage;
-
-	//m_cudaImage.Allocate(w, h, iAlignUp(w, 128), false, NULL, (float*)m.data);
-
-	//m_cudaImage.Download();
-
-	//SiftData m_siftData;
-
-	//float thresh = 5.0f;
-
-	//InitSiftData(m_siftData, 4096, true, true);
-	//ExtractSift(m_siftData, m_cudaImage, 5, 0.0f, thresh, 0.0f);
-
-	//printf("Number of available points: %d\n", m_siftData.numPts);
-
-	//tk_write_Sift_Mat(&m_siftData, "");
-
-	//FreeSiftData(m_siftData);
-
-	//PrintSiftData(m_siftData);
+	
 
 	return 0;
 
